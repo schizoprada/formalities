@@ -1,0 +1,19 @@
+
+[tool.pyright]
+venvPath = "/Users/joel/"
+venv = "/Users/joel/formalities/.venv"
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "formalities"
+version = "0.0.1"
+description = "a portable formal logic framework for enabling validated reasoning capabilities in agentic LLM's"
+readme = "README.md"
+authors = [{name = "Joel Yisrael", email = "joel@highlyawear.com"}]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["formalities*"]

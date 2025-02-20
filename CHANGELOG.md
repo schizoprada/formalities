@@ -1,0 +1,85 @@
+# CHANGELOG
+
+## [0.0.1] - February 20th, 2025
+
+### Added
+
+#### Core Types
+- Established base type system with `LogicType` enum
+- Created generic `Registry` system for type-safe instance management
+- Implemented `Atomic` base class for indivisible logical elements
+- Created `Compound` base class for composite logical structures
+
+#### Propositions
+- Implemented `Proposition` abstract base class
+- Created `AtomicProposition` combining `Atomic` and `Proposition`
+- Implemented `CompoundProposition` combining `Compound` and `Proposition`
+- Added support for proposition evaluation with context
+
+#### Operators
+- Created base `Operator` class with arity validation
+- Implemented operator hierarchy (Unary, Binary, N-ary)
+- Added core boolean operators:
+  - Basic: AND, OR, NOT, IMPLIES
+  - Complex: XOR, NAND, NOR, IFF/XNOR
+  - N-ary versions: AND_N, OR_N, NAND_N, NOR_N
+
+#### Frameworks
+- Created `Framework` abstract base class
+- Implemented `ValidationResult` for framework validation
+- Added `ClassicalFramework` with:
+  - Law of excluded middle enforcement
+  - Contradiction detection
+  - Operator compatibility checking
+
+#### Validation
+- Established validation type system with `ValidationType` enum
+- Created `ValidationStrategy` pattern
+- Implemented core validation strategies:
+  - Syntactic validation
+  - Logical consistency checking
+- Added `Validator` class for strategy orchestration
+
+### Project Structure
+```
+src/formalities/
+├── core/
+│   └── types/
+│       ├── atomic.py
+│       ├── compound.py
+│       ├── logic.py
+│       ├── registry.py
+│       ├── operators/
+│       │   ├── base.py
+│       │   └── boolean.py
+│       └── propositions/
+│           ├── base.py
+│           ├── atomic.py
+│           └── compound.py
+├── frameworks/
+│   ├── base.py
+│   └── simple.py
+└── validation/
+    ├── base.py
+    └── strategies/
+        ├── syntactic.py
+        └── logicalconsistency.py
+```
+
+### Documentation
+- Created initial project abstract
+- Established core architectural principles
+- Defined base class hierarchies and relationships
+
+### Notes
+- All core components maintain type safety through typing hints
+- Systems designed for extensibility and future enhancement
+- Framework validates against basic logical principles
+- Basic validation pipeline established
+
+### TODO
+- Implement additional frameworks (Modal, Intuitionistic)
+- Add more validation strategies
+- Create test suite
+- Add documentation strings to all modules
+- Implement more complex operators

@@ -1,0 +1,497 @@
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <title>BRAINSTORM.md - Grip</title>
+  <style>
+    /* Page tweaks */
+    .preview-page {
+      margin-top: 64px;
+      margin-bottom: 21px;
+    }
+    /* User-content tweaks */
+    .timeline-comment-wrapper > .timeline-comment:after,
+    .timeline-comment-wrapper > .timeline-comment:before {
+      content: none;
+    }
+    /* User-content overrides */
+    .discussion-timeline.wide {
+      width: 920px;
+    }
+
+    /* General Body Styling */
+    body {
+        font-family: 'Lora', serif;
+        background-color: #0d0d0d; /* Deep black background */
+        color: #e0e0e0; /* Pale white text */
+        line-height: 1.6;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /* Page Container */
+    .page {
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    /* Main Container */
+    #preview-page {
+        padding: 20px;
+    }
+
+    /* Repository Content */
+    .repository-content {
+        background-color: #1a1a1a; /* Darker background for the content */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Markdown Content */
+    .markdown-body {
+        padding: 20px;
+        background-color: #121212; /* Deep dark grey */
+        border-radius: 8px;
+    }
+
+    /* Headings */
+    .markdown-heading h1,
+    .markdown-heading h2,
+    .markdown-heading h3 {
+        color: #ff4f81; /* Vampiric red */
+        text-shadow: 2px 2px 4px #900; /* Sinister glow */
+    }
+
+    .heading-element {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    /* Links */
+    a {
+        color: #ff4f81; /* Blood red */
+        text-decoration: none;
+    }
+    a:hover {
+        color: #ff91a4; /* Lighter blood red */
+        text-decoration: underline;
+    }
+
+    /* Code Blocks */
+    .highlight pre,
+    pre {
+        background-color: #1e1e1e; /* Dark grey background */
+        color: #8cfffb; /* Mystic cyan for code */
+        padding: 15px;
+        border-radius: 6px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+    }
+    .highlight .pl-k {
+        color: #ff79c6; /* Pink for keywords */
+    }
+    .highlight .pl-s1 {
+        color: #bd93f9; /* Light violet for variables */
+    }
+
+    /* Box Styles */
+    .Box {
+        border: 1px solid #444;
+        border-radius: 8px;
+        background-color: #161616; /* Slightly lighter dark grey */
+    }
+
+    .Box-header {
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        border-bottom: 1px solid #444;
+    }
+
+    .Box-title {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #ff4f81;
+    }
+
+    /* Horizontal Rules */
+    hr {
+        border: 0;
+        height: 1px;
+        background: #444;
+        margin: 20px 0;
+    }
+
+    /* Tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #252525;
+        color: #ff4f81;
+    }
+    td {
+        background-color: #1a1a1a;
+    }
+
+    /* Mobile Optimization */
+    @media (max-width: 600px) {
+        body {
+            font-size: 95%; /* Slightly smaller body font size */
+            padding: 10px; /* Reduce padding for more content space */
+        }
+        .Box {
+            padding: 10px; /* Minimize padding in containers */
+        }
+        .Box-title {
+            font-size: 1.4em; /* Scale down the title slightly */
+        }
+        .markdown-heading h1 {
+            font-size: 1.6em; /* Slightly smaller h1 */
+        }
+        .markdown-heading h2 {
+            font-size: 1.4em; /* Slightly smaller h2 */
+        }
+        .markdown-heading h3 {
+            font-size: 1.2em; /* Slightly smaller h3 */
+        }
+        pre, code {
+            font-size: 0.85em; /* Slightly reduce font size for code */
+        }
+        pre {
+            padding: 8px; /* Reduce padding in code blocks */
+        }
+        table {
+            font-size: 0.9em; /* Make table text smaller for better fit */
+        }
+        th, td {
+            padding: 5px; /* Reduce padding in table cells */
+        }
+        .Box-body {
+            padding: 10px; /* Compact inner padding */
+        }
+        .clearfix, .repository-content, .markdown-body {
+            padding: 5px; /* Reduce general padding in sections */
+        }
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div id="preview-page" class="preview-page" data-autorefresh-url="/__/grip/refresh/">
+    <main id="js-repo-pjax-container">
+      <div class="clearfix new-discussion-timeline container-xl px-3 px-md-4 px-lg-5">
+        <div class="repository-content">
+          <div class="clearfix">
+            <div class="Layout Layout--flowRow-until-md Layout--sidebarPosition-end Layout--sidebarPosition-flowRow-end">
+              <div class="Layout-main">
+
+
+
+                  <div id="readme" class="Box md Box--responsive">
+
+                      <div class="Box-header d-flex border-bottom-0 flex-items-center flex-justify-between color-bg-default rounded-top-2">
+                        <div class="d-flex flex-items-center">
+                          <h2 class="Box-title">
+                            BRAINSTORM.md
+                          </h2>
+                        </div>
+                      </div>
+
+                    <div class="Box-body px-5 pb-5">
+                      <article id="grip-content" class="markdown-body entry-content container-lg">
+                        <div class="markdown-heading"><h1 class="heading-element">FORMALITIES</h1><a id="user-content-formalities" class="anchor" aria-label="Permalink: FORMALITIES" href="#formalities"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">Overview</h2><a id="user-content-overview" class="anchor" aria-label="Permalink: Overview" href="#overview"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>primary core:</strong>
+<em>a python-based formal logic &amp; philosophical logic framework,</em>
+<em>designed for use by agentic machine learning models</em>
+<em>for output validation and enhanced reasoning processes</em></p>
+<p><strong>secondary core:</strong>
+<em>additional tools and frameworks pertaining to linguistics, philosophy of language, etc.</em>
+<em>-- this will be particularly useful for our target implementation of the library</em>
+<em>as it can be assumed the majority if not entirety of the models that will use this framework</em>
+<em>will be large language models</em></p>
+<div class="markdown-heading"><h2 class="heading-element">CONTEMPLATIONS &amp; CONSIDERATIONS</h2><a id="user-content-contemplations--considerations" class="anchor" aria-label="Permalink: CONTEMPLATIONS &amp; CONSIDERATIONS" href="#contemplations--considerations"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<p>We want to build formal &amp; philosophical logic from scratch</p>
+</li>
+<li>
+<p>After the core is established we will extend it into various submodules
+designed after notable <code>"interpretations"</code> of formal logic</p>
+<ul>
+<li>examples: frege, boole, russell, north whitehead, wittgenstein, etc...</li>
+</ul>
+</li>
+<li>
+<p>we want this library to be intuitive and easy to use, power and elegance in flawless simplicity</p>
+</li>
+<li>
+<p>for pre-development research, we might consider using extant formal logic python frameworks
+with tool-use-capable LLM's to see what our implementation could look like
+after we get the core essence of formal logic defined and tested</p>
+<ul>
+<li>this will allow us to also tangibly realize any particular obstacles that were unforseen</li>
+</ul>
+</li>
+<li>
+<p>for the usage style im thinking something at the intersection of
+declarative, functional, and procedural paradigms</p>
+</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Example Potential Use:</h2><a id="user-content-example-potential-use" class="anchor" aria-label="Permalink: Example Potential Use:" href="#example-potential-use"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="highlight highlight-source-python"><pre><span class="pl-k">import</span> <span class="pl-s1">ollama</span>
+<span class="pl-k">import</span> <span class="pl-s1">formalities</span> <span class="pl-k">as</span> <span class="pl-s1">fm</span>
+<span class="pl-s1">baseprompt</span> <span class="pl-c1">=</span> <span class="pl-s">"""</span>
+<span class="pl-s">What color is the sky? And why?</span>
+<span class="pl-s">"""</span>
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">resources</span> <span class="pl-k">import</span> (
+    <span class="pl-v">Internet</span>, <span class="pl-v">Database</span>, ... <span class="pl-c"># external data references</span>
+)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">interpretations</span> <span class="pl-k">import</span> (<span class="pl-v">Wittgenstein</span>, <span class="pl-v">Boole</span>, <span class="pl-v">Frege</span>, <span class="pl-v">NorthWhitehead</span>)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">frameworks</span>.<span class="pl-s1">apriori</span> <span class="pl-k">import</span> (<span class="pl-v">PureReason</span>, <span class="pl-v">AnalyticAPriori</span>, <span class="pl-v">SyntheticAPriori</span>)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">frameworks</span>.<span class="pl-s1">aposteriori</span> <span class="pl-k">import</span> (<span class="pl-v">EmpiricalReason</span>, <span class="pl-v">AnalyticAPosteriori</span>, <span class="pl-v">SyntheticAPosteriori</span>)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">symbology</span>.<span class="pl-s1">operators</span> <span class="pl-k">import</span> (<span class="pl-v">Conjunction</span>, <span class="pl-v">Disjunction</span>, <span class="pl-v">Negation</span>, <span class="pl-v">Implication</span>, <span class="pl-v">Biconditional</span>)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">symbology</span>.<span class="pl-s1">quantifiers</span> <span class="pl-k">import</span> (<span class="pl-v">ExistentialQuantifier</span>, <span class="pl-v">UniversalQuantifier</span>)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">symbology</span>.<span class="pl-s1">relational</span> <span class="pl-k">import</span> (<span class="pl-v">SetMembership</span>, <span class="pl-v">Subset</span>, <span class="pl-v">Intersection</span>, <span class="pl-v">Union</span>, <span class="pl-v">Contradiction</span>, <span class="pl-v">Tautology</span>)
+<span class="pl-k">from</span> <span class="pl-s1">formalities</span>.<span class="pl-s1">symbology</span>.<span class="pl-s1">miscellaneous</span> <span class="pl-k">import</span> (<span class="pl-v">Equivalence</span>, <span class="pl-v">Turnstile</span>, <span class="pl-v">DoubleTurnstile</span>, <span class="pl-v">ShefferStroke</span>, <span class="pl-v">PierceArrow</span>)
+
+
+<span class="pl-c"># some sort of system to use the base prompt to match the most appropriate tools before its even provided to the llm</span>
+<span class="pl-c">## should also have an automatic kwarg so that options can be optional and it will pick out from the whole library</span>
+<span class="pl-c">### like: `tools = fm.ai.tools.selectappropriate(baseprompt, auto=True, minimum=2, maximum=10, ...otherkwargsthatmightbeuseful)</span>
+<span class="pl-s1">tools</span> <span class="pl-c1">=</span> <span class="pl-s1">fm</span>.<span class="pl-c1">ai</span>.<span class="pl-c1">tools</span>.<span class="pl-c1">selectappropriate</span>(<span class="pl-s1">baseprompt</span>, <span class="pl-s1">options</span><span class="pl-c1">=</span>(<span class="pl-v">Internet</span>, <span class="pl-v">Database</span>, <span class="pl-v">Wittgenstein</span>, <span class="pl-v">Boole</span>, <span class="pl-v">Frege</span>, <span class="pl-v">NorthWhitehead</span>, <span class="pl-v">PureReason</span>, <span class="pl-v">AnalyticAPriori</span>, <span class="pl-v">SyntheticAPriori</span>, <span class="pl-v">EmpiricalReason</span>, <span class="pl-v">AnalyticAPosteriori</span>, <span class="pl-v">SyntheticAPosteriori</span>, <span class="pl-v">Conjunction</span>, <span class="pl-v">Disjunction</span>, <span class="pl-v">Negation</span>, <span class="pl-v">Implication</span>, <span class="pl-v">Biconditional</span>, <span class="pl-v">ExistentialQuantifier</span>, <span class="pl-v">UniversalQuantifier</span>, <span class="pl-v">SetMembership</span>, <span class="pl-v">Subset</span>, <span class="pl-v">Intersection</span>, <span class="pl-v">Union</span>, <span class="pl-v">Contradiction</span>, <span class="pl-v">Tautology</span>, <span class="pl-v">Equivalence</span>, <span class="pl-v">Turnstile</span>, <span class="pl-v">DoubleTurnstile</span>, <span class="pl-v">ShefferStroke</span>, <span class="pl-v">PierceArrow</span>))
+
+<span class="pl-c"># new tells it that it will not extend the base prompt it will be a new one included in the `messages[]`</span>
+<span class="pl-s1">systemprompt</span> <span class="pl-c1">=</span> <span class="pl-s1">fm</span>.<span class="pl-c1">ai</span>.<span class="pl-c1">utils</span>.<span class="pl-c1">formatprompt</span>(<span class="pl-s1">baseprompt</span>, <span class="pl-s1">new</span><span class="pl-c1">=</span><span class="pl-c1">True</span>, <span class="pl-s1">role</span><span class="pl-c1">=</span><span class="pl-s">'system'</span>, <span class="pl-s1">tools</span><span class="pl-c1">=</span><span class="pl-s1">tools</span>, <span class="pl-s1">returnas</span><span class="pl-c1">=</span><span class="pl-s1">dict</span>)
+
+<span class="pl-c"># now the prompt will be formatted like:</span>
+<span class="pl-c">## all of this should be configurable too btw. we'll have defaults lib but yea</span>
+<span class="pl-s">"""</span>
+<span class="pl-s">[Introduction]</span>
+<span class="pl-s">You are an agentic LLM tasked with answering the users queries, or preforming actions at their behest.</span>
+<span class="pl-s">To ensure verifiable and consistent outputs, you must use any of the following provided tools best suited for the objective at hand.</span>
+<span class="pl-s">... (more info etc)</span>
+<span class="pl-s"></span>
+<span class="pl-s">[Tools]</span>
+<span class="pl-s">Wittgenstein, Boole, Frege, NorthWhitehead, PureReason, AnalyticAPriori, SyntheticAPriori, EmpiricalReason, AnalyticAPosteriori, SyntheticAPosteriori, Conjunction, Disjunction, Negation, Implication, Biconditional, ExistentialQuantifier, UniversalQuantifier, SetMembership, Subset, Intersection, Union, Contradiction, Tautology, Equivalence, Turnstile, DoubleTurnstile, ShefferStroke, PierceArrow</span>
+<span class="pl-s"></span>
+<span class="pl-s">[Instructions]</span>
+<span class="pl-s">You are not required to use all of the provided tools, just the ones best fit for the task.</span>
+<span class="pl-s">...(more instructions)</span>
+<span class="pl-s">"""</span>
+
+<span class="pl-s1">model</span><span class="pl-c1">=</span><span class="pl-s">'llama3.2'</span>
+<span class="pl-s1">messages</span><span class="pl-c1">=</span>[{<span class="pl-s">'role'</span>: <span class="pl-s">'user'</span>, <span class="pl-s">'content'</span>: <span class="pl-s1">baseprompt</span>}, <span class="pl-s1">systemprompt</span>]
+<span class="pl-s1">response</span> <span class="pl-c1">=</span> <span class="pl-s1">ollama</span>.<span class="pl-c1">chat</span>(
+    <span class="pl-s1">model</span><span class="pl-c1">=</span><span class="pl-s1">model</span>,
+    <span class="pl-s1">messages</span><span class="pl-c1">=</span><span class="pl-s1">messages</span>,
+    <span class="pl-s1">tools</span><span class="pl-c1">=</span><span class="pl-s1">tools</span> <span class="pl-c"># if the model uses the tools properly it should work like this in and of itself, however...</span>
+)
+<span class="pl-c">##... if we want to externally validate or enforce certain things on the response we can also do something like:</span>
+<span class="pl-s1">response</span> <span class="pl-c1">=</span> <span class="pl-s1">fm</span>.<span class="pl-c1">facilitate</span>(<span class="pl-s1">ollama</span>.<span class="pl-c1">chat</span>, <span class="pl-s1">fnargs</span><span class="pl-c1">=</span>(), <span class="pl-s1">fnkwargs</span><span class="pl-c1">=</span>(<span class="pl-s1">model</span><span class="pl-c1">=</span><span class="pl-s1">model</span>, <span class="pl-s1">messages</span><span class="pl-c1">=</span><span class="pl-s1">messages</span>, <span class="pl-s1">tools</span><span class="pl-c1">=</span><span class="pl-s1">tools</span>), <span class="pl-s1">mandatory</span><span class="pl-c1">=</span>(<span class="pl-en">tools</span><span class="pl-c1">=</span>(<span class="pl-v">Internet</span>, <span class="pl-v">PureReason</span>, <span class="pl-v">Wittgenstein</span>.<span class="pl-c1">PictureTheory</span>)), ...)<span class="pl-c"># other kwargs that would be useful for a method like this that facilitates the response</span>
+
+<span class="pl-c"># etc...</span></pre></div>
+<div class="markdown-heading"><h2 class="heading-element">Notations Symbology Glossary:</h2><a id="user-content-notations-symbology-glossary" class="anchor" aria-label="Permalink: Notations Symbology Glossary:" href="#notations-symbology-glossary"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>be sure to work in the section titled after your model name (llama/claude/gpt/someotherllm) unless explicitly indicated otherwise by the appropriate symbols</li>
+<li>contents enclosed by <code>&lt;&gt;</code> are open invitations for you (llama/claude/gpt/otherllm) to edit my section of the notes</li>
+<li>contents enclosed by <code>[]</code> in your notes section are prompts for your notes</li>
+<li>contents preceeded by a <code>&gt;</code> are nested bullet points, the more number of arrows in the nested bullet point indicates its nest level, e.g.:
+<blockquote>
+<p>this is a level 1 nested bullet point related to the primary one (<code>-</code>),  explaining the symbology for nested bullet points</p>
+<blockquote>
+<p>this is a level 2 nested bullet point related to the level 1 nested bullet point that precedes it as well as the primary bullet point</p>
+<blockquote>
+<p>etc.
+now this is a new level 1 nested, unrelated to the others but still tethered to the primary <code>-</code></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li>
+<code>\</code> indicates that the point proceeds to the new line</li>
+<li>
+<code>#</code> indicates comment(s), <code>##</code> indicates multiline comment(s)</li>
+<li>contents enclosed <code>%</code> indicate that you should mirror it in your own notes section and work on it alongside in your own manner <br>
+for contents that are multiline it will be <code>%%</code> <br>
+e.g. <br>
+%list of potential resources: ...% # that means we will have our own indpendent lists but we both will have lists of potential resources if that makes sense
+%%
+potential python example:
+<div class="highlight highlight-source-python"><pre><span class="pl-k">pass</span> <span class="pl-c"># we will try to write our own versions trying to resolve the same matter</span></pre></div>
+%%</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">LLAMA NOTES</h2><a id="user-content-llama-notes" class="anchor" aria-label="Permalink: LLAMA NOTES" href="#llama-notes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<p><strong>Initial Thoughts</strong></p>
+<ul>
+<li>Formal logic is crucial for developing robust and generalizable reasoning capabilities in AI systems.</li>
+<li>By building a framework specifically designed for agentic machine learning models, we can create more transparent and explainable decision-making processes.</li>
+<li>The Python-based framework will enable seamless integration with existing LLMs and allow us to leverage their strengths while incorporating formal logic principles.</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Challenges</strong></p>
+<ul>
+<li>Developing a robust and efficient implementation of formal logic that can be scaled for large datasets and complex reasoning tasks.</li>
+<li>Ensuring the framework's compatibility with various types of data, including natural language inputs, and adapting to potential biases or inconsistencies in the input data.</li>
+<li>Integrating the framework with existing AI/ML tools and frameworks to create a cohesive and user-friendly interface.</li>
+</ul>
+</li>
+<li>
+<p><strong>Research Directions</strong></p>
+<ul>
+<li>Investigating the application of specific formal logic frameworks (e.g., Kleene's strong normal form, Curry-Howard correspondence) to optimize reasoning processes in agentic LLMs.</li>
+<li>Developing novel methods for handling uncertainty, ambiguity, or non-monotonicity in formal logic-based decision-making systems.</li>
+<li>Exploring ways to incorporate human expertise and intuition into the framework to enhance its performance and reliability.</li>
+</ul>
+</li>
+<li>
+<p><strong>Future Work</strong></p>
+<ul>
+<li>Refining the framework's design and implementation based on user feedback, testing results, and ongoing research in formal logic and AI/ML.</li>
+<li>Developing a comprehensive evaluation framework to assess the effectiveness and robustness of our framework compared to existing approaches.</li>
+<li>Exploring potential applications of our framework beyond agentic LLMs, such as in expert systems or knowledge representation.</li>
+</ul>
+</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">PRIMARY OBJECTIVES</h3><a id="user-content-primary-objectives" class="anchor" aria-label="Permalink: PRIMARY OBJECTIVES" href="#primary-objectives"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Develop a robust and efficient formal logic framework</strong>
+<ul>
+<li>Investigate novel techniques for handling uncertainty, ambiguity, or non-monotonicity</li>
+<li>Integrate advanced mathematical logic and philosophical insights into the framework</li>
+</ul>
+</li>
+<li>
+<strong>Create a user-friendly interface and API</strong>
+<ul>
+<li>Design an intuitive and ergonomic framework for interacting with agentic LLMs</li>
+<li>Develop comprehensive documentation and tutorials for users</li>
+</ul>
+</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">SECONDARY OBJECTIVES</h3><a id="user-content-secondary-objectives" class="anchor" aria-label="Permalink: SECONDARY OBJECTIVES" href="#secondary-objectives"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Collaborate with researchers, philosophers, and industry experts</strong>
+<ul>
+<li>Establish partnerships with leading institutions and organizations to advance the field</li>
+<li>Engage in regular workshops, conferences, and webinars to share knowledge and best practices</li>
+</ul>
+</li>
+<li>
+<strong>Continuously evaluate and improve the framework</strong>
+<ul>
+<li>Develop a robust evaluation framework to assess the effectiveness of our framework</li>
+<li>Regularly update and expand the framework based on user feedback and ongoing research</li>
+</ul>
+</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">CLAUDE NOTES</h3><a id="user-content-claude-notes" class="anchor" aria-label="Permalink: CLAUDE NOTES" href="#claude-notes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">GPT NOTES</h3><a id="user-content-gpt-notes" class="anchor" aria-label="Permalink: GPT NOTES" href="#gpt-notes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">MISSION STATEMENT</h2><a id="user-content-mission-statement" class="anchor" aria-label="Permalink: MISSION STATEMENT" href="#mission-statement"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Llama</strong>
+We aim to develop a novel Python-based formal logic framework for agentic machine learning models, enabling robust and generalizable reasoning capabilities. Our goal is to create a flexible and user-friendly system that integrates insights from various philosophical traditions, mathematical logic, and AI/ML techniques.</p>
+<p>Our mission is to:</p>
+<ul>
+<li>Provide a rigorous foundation for reasoning in AI/ML, leveraging advances in formal logic and philosophy of language.</li>
+<li>Develop a framework that balances power and elegance, ensuring ease of use and adoption across diverse applications.</li>
+<li>Foster collaboration between researchers, philosophers, and industry experts to advance the state-of-the-art in formal logic-based AI/ML.</li>
+</ul>
+<p>By achieving these objectives, we envision our framework contributing to:</p>
+<ul>
+<li>Improved explainability and transparency in AI/ML decision-making processes</li>
+<li>Enhanced robustness and generalizability of agentic LLMs</li>
+<li>Novel applications in areas like natural language processing, computer vision, and expert systems</li>
+</ul>
+
+                      </article>
+                    </div>
+                  </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  </div><script>
+    function showCanonicalImages() {
+      var images = document.getElementsByTagName('img');
+      if (!images) {
+        return;
+      }
+      for (var index = 0; index < images.length; index++) {
+        var image = images[index];
+        if (image.getAttribute('data-canonical-src') && image.src !== image.getAttribute('data-canonical-src')) {
+          image.src = image.getAttribute('data-canonical-src');
+        }
+      }
+    }
+
+    function scrollToHash() {
+      if (location.hash && !document.querySelector(':target')) {
+        var element = document.getElementById('user-content-' + location.hash.slice(1));
+        if (element) {
+           element.scrollIntoView();
+        }
+      }
+    }
+
+    function autorefreshContent(eventSourceUrl) {
+      var initialTitle = document.title;
+      var contentElement = document.getElementById('grip-content');
+      var source = new EventSource(eventSourceUrl);
+      var isRendering = false;
+
+      source.onmessage = function(ev) {
+        var msg = JSON.parse(ev.data);
+        if (msg.updating) {
+          isRendering = true;
+          document.title = '(Rendering) ' + document.title;
+        } else {
+          isRendering = false;
+          document.title = initialTitle;
+          contentElement.innerHTML = msg.content;
+          showCanonicalImages();
+        }
+      }
+
+      source.onerror = function(e) {
+        if (e.readyState === EventSource.CLOSED && isRendering) {
+          isRendering = false;
+          document.title = initialTitle;
+        }
+      }
+    }
+
+    window.onhashchange = function() {
+      scrollToHash();
+    }
+
+    window.onload = function() {
+      scrollToHash();
+    }
+
+    showCanonicalImages();
+
+    var autorefreshUrl = document.getElementById('preview-page').getAttribute('data-autorefresh-url');
+    if (autorefreshUrl) {
+      autorefreshContent(autorefreshUrl);
+    }
+  </script>
+
+</body>
+</html>
