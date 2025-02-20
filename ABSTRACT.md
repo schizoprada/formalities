@@ -131,7 +131,23 @@ of the `Formalities` project aims to achieve.
 
 Whats most interesting about this interaction, is that the `successor of natural numbers` function did not need to be defined.
 By way of mere simple prompt engineering, the model understood the framework it needed to apply to the given prompt to arrive
-at a logically sound conclusion, and properly did so.
+at a logically sound conclusion, and properly did so. This reveals a crucial insight: the goal is not to think for the models,
+but rather to stimulate and encourage their own innate capability for "thought", while providing the tools and resources to validate
+their reasoning.
+The approach therefore is not to pre-define every possible logical path - a fool's errand - but rather to create a framework that:
+
+Allows models to construct their own logical approaches through natural reasoning
+Provides systematic tools to validate these approaches
+Helps formalize the model's natural reasoning into verifiable logic
+Makes existing logical frameworks and tools discoverable and accessible to the model
+
+This is achieved through a two-pronged approach:
+
+A `matchmaker` system that provides any relevant classes, methods, and frameworks from a standard library of logical tools
+A `methodbuilder` system that can take a model's logical constructs and turn them into executable, verifiable code
+
+This preserves the model's inherent reasoning capabilities while ensuring logical soundness through formal validation.
+The framework becomes not a replacement for thought, but a tool for verification and formalization.
 
 From this observation, a few key questions prop up:
 1. How can a model be made to understand when, where, and how to apply formal logic reasoning frameworks,

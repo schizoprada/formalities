@@ -1,3 +1,5 @@
 *.command
 *.sh
 .venv/
+*.DS_Store
+hashes/*

@@ -1,0 +1,69 @@
+.
+├── ABSTRACT.md
+├── ARCHITECTURE.md
+├── BRAINSTORM.html
+├── BRAINSTORM.md
+├── CHANGELOG.md
+├── CLAUDE.md
+├── README.md
+├── TODO
+│   └── Feb20.md
+├── hashes
+│   ├── abstract.txt
+│   ├── abstract.txt.ots
+│   ├── brainstorm.txt
+│   └── brainstorm.txt.ots
+├── md2html.py
+├── pyproject.toml
+├── src
+│   └── formalities
+│       ├── __init__.py
+│       ├── core
+│       │   ├── __init__.py
+│       │   ├── methods
+│       │   │   ├── __init__.py
+│       │   │   ├── reduction
+│       │   │   └── validation
+│       │   └── types
+│       │       ├── __init__.py
+│       │       ├── atomic.py
+│       │       ├── compound.py
+│       │       ├── logic.py
+│       │       ├── operators
+│       │       │   ├── base.py
+│       │       │   └── boolean.py
+│       │       ├── propositions
+│       │       │   ├── __init__.py
+│       │       │   ├── atomic.py
+│       │       │   ├── base.py
+│       │       │   └── compound.py
+│       │       ├── quantifiers
+│       │       └── registry.py
+│       ├── frameworks
+│       │   ├── __init__.py
+│       │   ├── base.py
+│       │   ├── frege
+│       │   ├── russell
+│       │   ├── simple.py
+│       │   └── wittgenstein
+│       ├── symbolic
+│       │   ├── __init__.py
+│       │   └── types
+│       │       ├── __init__.py
+│       │       ├── operators
+│       │       └── quantifiers
+│       └── validation
+│           ├── __init__.py
+│           ├── base.py
+│           ├── pipelines
+│           │   └── __init__.py
+│           ├── strategies
+│           │   ├── __init__.py
+│           │   ├── logicalconsistency.py
+│           │   └── syntactic.py
+│           └── tools
+│               └── __init__.py
+├── tree.txt
+└── venv.command
+
+25 directories, 42 files
