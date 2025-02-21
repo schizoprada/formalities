@@ -1,0 +1,6 @@
+Metadata-Version: 2.2
+Name: formalities
+Version: 0.0.2
+Summary: a portable formal logic framework for enabling validated reasoning capabilities in agentic LLM's
+Author-email: Joel Yisrael <joel@highlyawear.com>
+Description-Content-Type: text/markdown

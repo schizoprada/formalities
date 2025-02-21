@@ -2,3 +2,4 @@
 from .base import Proposition
 from .atomic import AtomicProposition
 from .compound import CompoundProposition
+from .numeric import NumericProposition

@@ -27,7 +27,7 @@ class CompoundProposition(Proposition, Compound[Proposition]):
             """String representation using operator symbol and components."""
             if self.operator.arity == 1:
                 return f"{self.operator.symbol}{self.components[0]}"
-            return f"({' ' + self.operator.symbol + ' ').join(str(p) for p in self.components)}"
+            return f"({(' ' + self.operator.symbol + ' ').join(str(p) for p in self.components)}"
 
     def __eq__(self, other: t.Any) -> bool:
         """Equality comparison checking operator and components."""
@@ -65,7 +65,7 @@ class CompoundProposition(Proposition, Compound[Proposition]):
         return _atoms
 
 
-    def evaluate(self, context: t.Optional[t.Dict[str, bool]], *args, **kwargs) -> bool:
+    def evaluate(self, context: t.Optional[t.Dict[str, bool]]=None, *args, **kwargs) -> bool:
         """Evaluate this compound proposition"""
         return self.operator(
             *[

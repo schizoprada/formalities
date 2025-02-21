@@ -36,7 +36,7 @@ class AtomicProposition(Proposition, Atomic):
         AtomicRegistry.register(self)
 
 
-    def evaluate(self, context: t.Optional[t.Dict[str, bool]]) -> bool:
+    def evaluate(self, context: t.Optional[t.Dict[str, bool]]=None) -> bool:
         """
         Evaluate the truth value of this proposition.
 

@@ -4,8 +4,7 @@ Verification & Ownership: All materials have been cryptographically hashed and t
 Jurisdiction & Enforceability: This agreement shall be governed by the laws of [United States of America]. If you do not agree to these terms, you must immediately cease access.*
 
 # Formalities
-*A Pythonic Portable Formal Logic Reasoning Framework For Agentic Large Language Models*
-*With The Intention Of A Flagship Model To Match*
+*A Pythonic Portable Formal Logic Reasoning Framework For Agentic Large Language Models & Matching Flagship Model*
 > Joel Yisrael Biton
 > February 20th, 2025
 
@@ -136,10 +135,10 @@ but rather to stimulate and encourage their own innate capability for "thought",
 their reasoning.
 The approach therefore is not to pre-define every possible logical path - a fool's errand - but rather to create a framework that:
 
-Allows models to construct their own logical approaches through natural reasoning
-Provides systematic tools to validate these approaches
-Helps formalize the model's natural reasoning into verifiable logic
-Makes existing logical frameworks and tools discoverable and accessible to the model
+- Allows models to construct their own logical approaches through natural reasoning
+- Provides systematic tools to validate these approaches
+- Helps formalize the model's natural reasoning into verifiable logic
+- Makes existing logical frameworks and tools discoverable and accessible to the model
 
 This is achieved through a two-pronged approach:
 
@@ -164,7 +163,10 @@ What are the pros, cons, and considerations for each?
 
 ### PROPOSED ARCHITECTURE
 
-The solution to probabilistic reasoning deficiencies requires a multi-layered approach that extends beyond mere prompt engineering or statistical filtering. We propose a framework that operates at multiple levels of abstraction, mirroring the hierarchical nature of human cognitive processes:
+The solution to probabilistic reasoning deficiencies requires a multi-layered approach,
+that extends beyond mere prompt engineering or statistical filtering.
+We propose a framework that operates at multiple levels of abstraction,
+mirroring the hierarchical nature of human cognitive processes:
 
 1. Base Layer: Formal Logic Processing
 - A pure computational layer where propositions can be reduced to their logical essentials
@@ -181,11 +183,14 @@ The solution to probabilistic reasoning deficiencies requires a multi-layered ap
 - Processing of various input modalities (text, images, structured data)
 - Reduction of complex queries to verifiable logical propositions
 
-This architecture aims to bridge the gap between natural language interaction and formal logical reasoning, while maintaining rigorous validation at each step.
+This architecture aims to bridge the gap between natural language interaction and formal logical reasoning,
+while maintaining rigorous validation at each step.
 
 ### METHODOLOGY & IMPLEMENTATION
 
-The framework's implementation follows a strictly hierarchical approach, prioritizing logical soundness while maintaining computational efficiency. At its core, the framework establishes a new paradigm for LLM computation that transcends traditional probabilistic methods.
+The framework's implementation follows a strictly hierarchical approach,
+prioritizing logical soundness while maintaining computational efficiency.
+At its core, the framework establishes a new paradigm for LLM computation that transcends traditional probabilistic methods.
 
 **Core Implementation:**
 The base framework, written in Python, serves as both a standalone library and a template for direct model integration. It provides:
@@ -343,11 +348,11 @@ The development of Formalities follows a structured approach with clear mileston
 - Documentation and support
 
 **Timeline:**
-- Phase 1: Core Framework (3 months)
-- Phase 2: Tool Integration (2 months)
-- Phase 3: Framework Manager (2 months)
-- Phase 4: Validation Pipeline (3 months)
-- Phase 5: Integration Layer (2 months)
+- Phase 1: Core Framework (2 months)
+- Phase 2: Tool Integration (1 month)
+- Phase 3: Framework Manager (1 month)
+- Phase 4: Validation Pipeline (2 months)
+- Phase 5: Integration Layer (1 month)
 
 ### CONCLUSION
 

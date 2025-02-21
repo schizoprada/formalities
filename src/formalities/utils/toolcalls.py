@@ -2,7 +2,10 @@
 from __future__ import annotations
 import inspect, typing as t
 from dataclasses import dataclass
+from formalities.utils.typesys import typehandler
 from formalities.utils.discovery import frameworkregistry
+from formalities.validation.base import ValidationContext, Validator
+from formalities.core.types.propositions import Proposition
 from loguru import logger as log
 
 @dataclass
@@ -94,22 +97,49 @@ class ToolCallHandler:
 
             result = mainfunc(**args)
 
-            validations = []
-            for fw in loaded['frameworks']:
-                validations.append(
-                    fw.validate(result)
+            if not isinstance(result, Proposition):
+                conversion = typehandler.toprop(result, "result")
+                if not conversion.success:
+                    return ToolCallResponse(
+                        success=False,
+                        error=f"Failed to convert result: {conversion.error}"
+                    )
+                result = conversion.value
+
+            if not (primaryfw:=(loaded['frameworks'][0] if loaded['frameworks'] else None)):
+                return ToolCallResponse(
+                    success=False,
+                    error="At least one framework required for validation"
                 )
-            for vl in loaded['validators']:
-                validations.append(
-                    vl.validate(result, None)
-                )
-            return ToolCallResponse(
-                success=True,
-                data={
-                    "result": result,
-                    "validations": validations
-                }
+
+            context = ValidationContext(
+                framework=primaryfw,
+                options=args
             )
+
+            validator = Validator(primaryfw)
+
+            for fw in loaded["frameworks"][1:]:
+                validator.addstrategy(fw)
+
+            for v in loaded['validators']:
+                validator.addstrategy(v)
+
+            validated = validator.validate(result)
+
+            return ToolCallResponse(
+                success=validated.isvalid,
+                data=({
+                    "result": result,
+                    "validation": {
+                        "context": context,
+                        "history": context.history
+                    },
+                    "errors": validated.errors
+                } if validated.isvalid else None),
+                error=("; ".join(validated.errors) if not validated.isvalid else None)
+            )
+
         except Exception as e:
             log.error(f"ToolCallHandler._methodbuilder | exception | {str(e)}")
             return ToolCallResponse(

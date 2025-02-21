@@ -15,6 +15,8 @@
 │   └── brainstorm.txt.ots
 ├── md2html.py
 ├── pyproject.toml
+├── sandbox
+│   └── __init__.py
 ├── src
 │   └── formalities
 │       ├── __init__.py
@@ -36,7 +38,8 @@
 │       │       │   ├── __init__.py
 │       │       │   ├── atomic.py
 │       │       │   ├── base.py
-│       │       │   └── compound.py
+│       │       │   ├── compound.py
+│       │       │   └── numeric.py
 │       │       ├── quantifiers
 │       │       └── registry.py
 │       ├── frameworks
@@ -52,9 +55,16 @@
 │       │       ├── __init__.py
 │       │       ├── operators
 │       │       └── quantifiers
+│       ├── utils
+│       │   ├── __init__.py
+│       │   ├── discovery.py
+│       │   ├── frameworks.py
+│       │   ├── toolcalls.py
+│       │   └── typesys.py
 │       └── validation
 │           ├── __init__.py
 │           ├── base.py
+│           ├── context.py
 │           ├── pipelines
 │           │   └── __init__.py
 │           ├── strategies
@@ -63,7 +73,9 @@
 │           │   └── syntactic.py
 │           └── tools
 │               └── __init__.py
+├── tests
+│   └── __init__.py
 ├── tree.txt
 └── venv.command
 
-25 directories, 42 files
+28 directories, 51 files
