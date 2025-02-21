@@ -98,7 +98,7 @@ class Validator:
     def addstrategy(self, strategy: ValidationStrategy) -> None:
         self._strategies.append(strategy)
 
-    def validate(self, proposition: Proposition, options: t.Optional[dict[str, t.Any]]=None) -> ValidationResult:
+    def validate(self, proposition: Proposition, options: t.Optional[dict[str, t.Any]]=None) -> tuple[ValidationResult, ValidationContext]:
         """
         Validate a proposition using all registered strategies.
 
@@ -114,9 +114,10 @@ class Validator:
             options=(options or {})
         )
         errors = []
-
+        log.debug(f"validator.validate | starting validation with {len(self._strategies)} strategies")
         # Framework validation first
         result = self.framework.validate(proposition)
+        log.debug(f"validator.validate | framework validation result: {result}")
         if not result.isvalid:
             context.record(
                 source=self.framework.name,
@@ -128,7 +129,9 @@ class Validator:
 
         # Strategy validation
         for strategy in self._strategies:
+            log.debug(f"validator.validate | running strategy: {strategy.__class__.__name__}")
             sresult = strategy.validate(proposition, context)
+            log.debug(f"validator.validate | strategy reslt: {sresult}")
             context.record(
                 source=f"strategy:{strategy.__class__.__name__}",
                 proposition=proposition,
@@ -138,7 +141,16 @@ class Validator:
             if not sresult.isvalid:
                 errors.extend(sresult.errors)
 
-        return ValidationResult(
+        finalresult = ValidationResult(
             (len(errors) == 0),
             errors
         )
+
+        context.record(
+            source="validator",
+            proposition=proposition,
+            success=finalresult.isvalid,
+            errors=(finalresult.errors if not finalresult.isvalid else None)
+        )
+
+        return finalresult, context

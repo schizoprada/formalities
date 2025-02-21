@@ -1,6 +1,6 @@
 # ~/formalities/src/formalities/utils/typesys.py
 from __future__ import annotations
-import typing as t
+import json, typing as t
 from dataclasses import dataclass
 from formalities.core.types.logic import LogicType
 from formalities.core.types.propositions import (
@@ -20,14 +20,50 @@ class TypeHandler:
     """Handles type validation and converstion for methodbuilder"""
 
     @staticmethod
-    def validateparams(params: dict[str, t.Any], expected: dict[str, type]) -> list[str]:
+    def _tryjsonparse(v: str) -> tuple[bool, t.Any]:
+        try:
+            return True, json.loads(v)
+        except (json.JSONDecodeError, TypeError):
+            return False, v
+
+    @staticmethod
+    def _trytypeconversion(v: t.Any, target: type) -> tuple[bool, t.Any]:
+        if isinstance(v, str):
+            success, parsed = TypeHandler._tryjsonparse(v)
+            if success:
+                v = parsed
+        try:
+            if target == list and isinstance(v, (str, tuple, set)):
+                if isinstance(v, str):
+                    success, parsed = TypeHandler._tryjsonparse(v)
+                    return True, list(parsed) if success else [v]
+                return True, list(v)
+            if target == dict and isinstance(v, str):
+                success, parsed = TypeHandler._tryjsonparse(v)
+                return True, (parsed if success else None)
+            converted = target(v)
+            return True, converted
+        except (ValueError, TypeError):
+            return False, v
+
+    @classmethod
+    def validateparams(cls, params: dict[str, t.Any], expected: dict[str, type]) -> list[str]:
         errors = []
         for name, exp in expected.items():
             if name not in params:
                 errors.append(f"Missing required parameter: {name}")
                 continue
-            if not isinstance((value:=params[name]), exp):
-                errors.append(f"Invalid type ({type(value).__name__}) for parameter ({name}). Expected: {exp.__name__}")
+            value = params[name]
+            success, converted = cls._trytypeconversion(value, exp)
+            if success:
+                params[name] = converted
+            else:
+                errors.append(
+                    f"""
+                    Invalid type ({type(value).__name__}) for parameter ({name}).
+                    Expected: {exp.__name__}
+                    """
+                )
         return errors
 
     @staticmethod

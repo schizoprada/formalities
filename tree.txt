@@ -7,7 +7,8 @@
 ├── CLAUDE.md
 ├── README.md
 ├── TODO
-│   └── Feb20.md
+│   ├── Feb20.md
+│   └── Feb21.md
 ├── hashes
 │   ├── abstract.txt
 │   ├── abstract.txt.ots
@@ -15,8 +16,10 @@
 │   └── brainstorm.txt.ots
 ├── md2html.py
 ├── pyproject.toml
+├── pytest.ini
 ├── sandbox
-│   └── __init__.py
+│   ├── __init__.py
+│   └── llama_char_count.py
 ├── src
 │   └── formalities
 │       ├── __init__.py
@@ -58,6 +61,7 @@
 │       ├── utils
 │       │   ├── __init__.py
 │       │   ├── discovery.py
+│       │   ├── formatting.py
 │       │   ├── frameworks.py
 │       │   ├── toolcalls.py
 │       │   └── typesys.py
@@ -74,8 +78,25 @@
 │           └── tools
 │               └── __init__.py
 ├── tests
-│   └── __init__.py
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── core
+│   │   ├── __init__.py
+│   │   └── types
+│   │       ├── __init__.py
+│   │       └── test_numeric_propositions.py
+│   ├── frameworks
+│   │   ├── __init__.py
+│   │   └── test_framework_selector.py
+│   ├── utils
+│   │   ├── __init__.py
+│   │   ├── test_formatting_formatcode.py
+│   │   ├── test_tool_handlers.py
+│   │   └── test_type_handler.py
+│   └── validation
+│       ├── __init__.py
+│       └── test_context.py
 ├── tree.txt
 └── venv.command
 
-28 directories, 51 files
+33 directories, 67 files

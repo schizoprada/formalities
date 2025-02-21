@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "formalities"
-version = "0.0.2"
+version = "0.0.3"
 description = "a portable formal logic framework for enabling validated reasoning capabilities in agentic LLM's"
 readme = "README.md"
 authors = [{name = "Joel Yisrael", email = "joel@highlyawear.com"}]

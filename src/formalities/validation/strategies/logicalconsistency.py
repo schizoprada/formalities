@@ -5,6 +5,7 @@ from formalities.core.types.propositions import Proposition
 from formalities.validation.base import (
     ValidationType, ValidationResult, ValidationContext, ValidationStrategy
 )
+from loguru import logger as log
 
 class LogicalConsistencyStrategy(ValidationStrategy):
     @property
@@ -14,8 +15,10 @@ class LogicalConsistencyStrategy(ValidationStrategy):
     def validate(self, proposition: Proposition, context: ValidationContext) -> ValidationResult:
         errors = []
         try:
-            proposition.evaluate() # why is context not being used here?
+            result = proposition.evaluate(context.options)
+            log.debug(f"logicalconsistencystrategy.validate | evaluation result: {result}")
         except Exception as e:
+            log.debug(f"logicalconsistencystrategy.validate | evaluation error: {str(e)}")
             errors.append(f"Evaluation Error: {str(e)}")
         return ValidationResult(
             (len(errors)==0),
