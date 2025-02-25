@@ -4,11 +4,28 @@
 ├── BRAINSTORM.html
 ├── BRAINSTORM.md
 ├── CHANGELOG.md
+├── CHECKLIST.md
+├── CHECKLISTS
+│   ├── EMBEDDED
+│   │   ├── PHASE1.md
+│   │   ├── PHASE2.md
+│   │   └── PHASE3.md
+│   ├── FINAL.md
+│   └── UTILITY
+│       ├── PHASE1.md
+│       ├── PHASE2.md
+│       ├── PHASE3.md
+│       ├── PHASE4.md
+│       └── PHASE5.md
 ├── CLAUDE.md
+├── DESIGNPRINCIPLE
 ├── README.md
+├── ROADMAP.md
 ├── TODO
 │   ├── Feb20.md
-│   └── Feb21.md
+│   ├── Feb21.md
+│   └── Feb25.md
+├── concatprompt.txt
 ├── hashes
 │   ├── abstract.txt
 │   ├── abstract.txt.ots
@@ -19,7 +36,8 @@
 ├── pytest.ini
 ├── sandbox
 │   ├── __init__.py
-│   └── llama_char_count.py
+│   ├── llama_char_count.py
+│   └── mistral_nemo_char_count.py
 ├── src
 │   └── formalities
 │       ├── __init__.py
@@ -36,12 +54,19 @@
 │       │       ├── logic.py
 │       │       ├── operators
 │       │       │   ├── base.py
-│       │       │   └── boolean.py
+│       │       │   ├── boolean.py
+│       │       │   └── modal
+│       │       │       ├── __init__.py
+│       │       │       ├── base.py
+│       │       │       └── registry.py
 │       │       ├── propositions
 │       │       │   ├── __init__.py
 │       │       │   ├── atomic.py
 │       │       │   ├── base.py
 │       │       │   ├── compound.py
+│       │       │   ├── modal
+│       │       │   │   ├── __init__.py
+│       │       │   │   └── base.py
 │       │       │   └── numeric.py
 │       │       ├── quantifiers
 │       │       └── registry.py
@@ -60,6 +85,19 @@
 │       │       └── quantifiers
 │       ├── utils
 │       │   ├── __init__.py
+│       │   ├── dialog
+│       │   │   ├── __init__.py
+│       │   │   ├── controller.py
+│       │   │   ├── patterns
+│       │   │   │   ├── __init__.py
+│       │   │   │   ├── errors.py
+│       │   │   │   └── success.py
+│       │   │   ├── prompts.py
+│       │   │   ├── state.py
+│       │   │   └── strategies
+│       │   │       ├── __init__.py
+│       │   │       ├── correction.py
+│       │   │       └── reasoning.py
 │       │   ├── discovery.py
 │       │   ├── formatting.py
 │       │   ├── frameworks.py
@@ -99,4 +137,4 @@
 ├── tree.txt
 └── venv.command
 
-33 directories, 67 files
+41 directories, 97 files

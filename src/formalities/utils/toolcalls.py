@@ -20,6 +20,7 @@ class ToolCallResponse:
     success: bool
     data: t.Optional[dict[str, t.Any]] = None
     error: t.Optional[str] = None
+    exception: t.Optional[Exception] = None
 
 
 class ToolCallHandler:
@@ -64,13 +65,14 @@ class ToolCallHandler:
             log.error(f"ToolCallHandler._matchmaker | exception | {str(e)}")
             return ToolCallResponse(
                 success=False,
-                error=f"Matchmaker Error: {str(e)}"
+                error=f"Matchmaker Error: {str(e)}",
+                exception=e
             )
 
     def _methodbuilder(self, query: dict) -> ToolCallResponse:
         """Enhanced method builder with pre-execution validation"""
 
-        def validateparams() -> tuple[bool, (str | None)]:
+        def validateparams() -> tuple[bool, (str | None), (Exception | None)]:
             """validate input parameters"""
             if (errors := typehandler.validateparams(query,
                 {
@@ -79,28 +81,30 @@ class ToolCallHandler:
                     "validators": list
                 }
             )):
-                return False, f"Parameter validation failed: {'; '.join(errors)}"
-            return True, None
+                errormsg = f"Parameter validation failed: {'; '.join(errors)}"
+                return False, errormsg, ValueError(errormsg)
+            return True, None, None
 
-        def compilecode(code: str) -> tuple[bool, (dict | str)]:
+        def compilecode(code: str) -> tuple[bool, (dict | str), (Exception | None)]:
             """Compile code and return namespace"""
             namespace = {}
             try:
                 exec(code, namespace)
-                return True, namespace
+                return True, namespace, None
             except Exception as e:
-                return False, f"Code Compilation Error: {str(e)}"
+                return False, f"Code Compilation Error: {str(e)}", e
 
-        def getmain(namespace: dict) -> tuple[bool, (t.Callable | str)]:
+        def getmain(namespace: dict) -> tuple[bool, (t.Callable | str), (Exception | None)]:
             """Get main function from namespace"""
             if (mainfunc := next((
                 obj for name, obj in namespace.items()
                 if inspect.isfunction(obj)
             ), None)):
-                return True, mainfunc
-            return False, "No function found in the provided code"
+                return True, mainfunc, None
+            error = "No function found in the provided code"
+            return False, error, ValueError(error)
 
-        def validateargs(func: t.Callable) -> tuple[bool, (str | None)]:
+        def validateargs(func: t.Callable) -> tuple[bool, (str | None), (Exception | None)]:
             """Validate function arguments"""
             sig = inspect.signature(func)
             required = {
@@ -109,74 +113,83 @@ class ToolCallHandler:
                 if param.default == param.empty
             }
             if (missing := [name for name in required if name not in query.get('args', {})]):
-                return False, f"Missing required arguments: {', '.join(missing)}"
-            return True, None
+                errormsg = f"Missing required arguments: {', '.join(missing)}"
+                return False, errormsg, ValueError(errormsg)
+            return True, None, None
 
-        def loadcomponents() -> tuple[bool, (dict | str)]:
+        def loadcomponents() -> tuple[bool, (dict | str), (Exception | None)]:
             """Load frameworks and validators"""
             loaded = {"frameworks": [], "validators": []}
             for framework in query.get("frameworks", []):
                 if (fclass := self._registry.getcomp(framework)):
                     loaded["frameworks"].append(fclass())
                 else:
-                    return False, f"Framework not found: {framework}"
+                    errormsg = f"Framework not found: {framework}"
+                    return False, errormsg, ImportError(errormsg)
             for validator in query.get("validators", []):
                 if (vclass := self._registry.getcomp(validator)):
                     loaded["validators"].append(vclass())
                 else:
-                    return False, f"Validator not found: {validator}"
+                    errormsg = f"Validator not found: {validator}"
+                    return False, errormsg, ImportError(errormsg)
             if not loaded["frameworks"]:
-                return False, "At least one framework is required for validation"
-            return True, loaded
+                errormsg = "At least one framework is required for validation"
+                return False, errormsg, ValueError(errormsg)
+            return True, loaded, None
 
-        def execute(func: t.Callable, args: dict) -> tuple[bool, t.Any]:
+        def execute(func: t.Callable, args: dict) -> tuple[bool, t.Any, (Exception | None)]:
             """Execute function with arguments"""
             try:
                 result = func(**args)
-                return True, result
+                return True, result, None
             except Exception as e:
-                return False, f"Function Execution Error: {str(e)}"
+                return False, f"Function Execution Error: {str(e)}", e
 
-        def convert(result: t.Any) -> tuple[bool, (Proposition | str)]:
+        def convert(result: t.Any) -> tuple[bool, (Proposition | str), (Exception | None)]:
             """Convert result to proposition"""
             if isinstance(result, Proposition):
-                return True, result
+                return True, result, None
             conversion = typehandler.toprop(result, "result")
             if not conversion.success:
-                return False, f"Failed to convert result: {conversion.error}"
-            return True, conversion.value
+                errormsg = f"Failed to convert result: {conversion.error}"
+                return False, errormsg, TypeError(errormsg)
+            return True, conversion.value, None
 
-        def validateresult(result: Proposition, components: dict) -> tuple[bool, (dict | str)]:
+        def validateresult(result: Proposition, components: dict) -> tuple[bool, (dict | str), (Exception | None)]:
             """Validate result using components"""
-            primaryfw = components["frameworks"][0]
-            context = ValidationContext(
-                framework=primaryfw,
-                options=query.get("args", {})
-            )
-            validator = Validator(primaryfw)
+            try:
+                primaryfw = components["frameworks"][0]
+                context = ValidationContext(
+                    framework=primaryfw,
+                    options=query.get("args", {})
+                )
+                validator = Validator(primaryfw)
 
-            for fw in components["frameworks"][1:]:
-                validator.addstrategy(fw)
-                log.debug(f"ToolCallHandler._methodbuilder | added framework strategy: {fw.__class__.__name__}")
+                for fw in components["frameworks"][1:]:
+                    validator.addstrategy(fw)
+                    log.debug(f"ToolCallHandler._methodbuilder | added framework strategy: {fw.__class__.__name__}")
 
-            for v in components["validators"]:
-                validator.addstrategy(v)
-                log.debug(f"ToolCallHandler._methodbuilder | added validator strategy: {v.__class__.__name__}")
+                for v in components["validators"]:
+                    validator.addstrategy(v)
+                    log.debug(f"ToolCallHandler._methodbuilder | added validator strategy: {v.__class__.__name__}")
 
-            log.debug(f"ToolCallHandler._methodbuilder | validator strategies: {[s.__class__.__name__ for s in validator._strategies]}")
-            validated, valctx = validator.validate(result)
-            log.debug(f"ToolCallHandler._methodbuilder | validation result: {validated}")
+                log.debug(f"ToolCallHandler._methodbuilder | validator strategies: {[s.__class__.__name__ for s in validator._strategies]}")
+                validated, valctx = validator.validate(result)
+                log.debug(f"ToolCallHandler._methodbuilder | validation result: {validated}")
 
-            if not validated.isvalid:
-                return False, "; ".join(validated.errors)
-            return True, {
-                "result": result,
-                "validation": {
-                    "context": valctx,
-                    "history": valctx.history
-                },
-                "errors": validated.errors
-            }
+                if not validated.isvalid:
+                    errormsg = "; ".join(validated.errors)
+                    return False, errormsg, ValueError(errormsg)
+                return True, {
+                    "result": result,
+                    "validation": {
+                        "context": valctx,
+                        "history": valctx.history
+                    },
+                    "errors": validated.errors
+                }, None
+            except Exception as e:
+                return False, f"Validation Error: {str(e)}", e
 
         try:
             # Extract and validate initial parameters
@@ -190,9 +203,11 @@ class ToolCallHandler:
             )
 
             if not code:
+                errormsg = "No code provided"
                 return ToolCallResponse(
                     success=False,
-                    error="No code provided"
+                    error=errormsg,
+                    exception=ValueError(errormsg)
                 )
 
             # Format code
@@ -201,57 +216,60 @@ class ToolCallHandler:
             except ValueError as e:
                 return ToolCallResponse(
                     success=False,
-                    error=str(e)
+                    error=str(e),
+                    exception=e
                 )
 
             # Validate parameters
-            if not (valid := validateparams())[0]:
-                return ToolCallResponse(success=False, error=valid[1])
+            valid, errormsg, validationexc = validateparams()
+            if not valid:
+                return ToolCallResponse(success=False, error=errormsg, exception=validationexc)
 
             # Load components
-            if not (components := loadcomponents())[0]:
-                return ToolCallResponse(success=False, error=components[1])
-            log.info(f"ToolCallHandler._methodbuilder | loaded: {components[1]}")
+            valid, componentsresult, componentsexc = loadcomponents()
+            if not valid:
+                return ToolCallResponse(success=False, error=componentsresult, exception=componentsexc)
+            log.info(f"ToolCallHandler._methodbuilder | loaded: {componentsresult}")
 
             # Compile code
-            if not (compiled := compilecode(code))[0]:
-                return ToolCallResponse(success=False, error=compiled[1])
+            valid, compiledresult, compileexc = compilecode(code)
+            if not valid:
+                return ToolCallResponse(success=False, error=compiledresult, exception=compileexc)
 
             # Get main function
-            if not (func := getmain(compiled[1]))[0]:
-                return ToolCallResponse(success=False, error=func[1])
+            valid, funcresult, funcexc = getmain(compiledresult)
+            if not valid:
+                return ToolCallResponse(success=False, error=funcresult, exception=funcexc)
 
             # Validate function arguments
-            if not (args_valid := validateargs(func[1]))[0]:
-                return ToolCallResponse(success=False, error=args_valid[1])
+            valid, argserror, argsexc = validateargs(funcresult)
+            if not valid:
+                return ToolCallResponse(success=False, error=argserror, exception=argsexc)
 
             # Execute function
-            if not (executed := execute(func[1], args))[0]:
-                return ToolCallResponse(success=False, error=executed[1])
+            valid, executedresult, execexc = execute(funcresult, args)
+            if not valid:
+                return ToolCallResponse(success=False, error=executedresult, exception=execexc)
 
             # Convert result
-            if not (converted := convert(executed[1]))[0]:
-                return ToolCallResponse(success=False, error=converted[1])
+            valid, convertedresult, convertexc = convert(executedresult)
+            if not valid:
+                return ToolCallResponse(success=False, error=convertedresult, exception=convertexc)
 
             # Validate result
-            if not (validated := validateresult(converted[1], components[1]))[0]:
-                return ToolCallResponse(success=False, error=validated[1])
+            valid, validatedresult, validationexc = validateresult(convertedresult, componentsresult)
+            if not valid:
+                return ToolCallResponse(success=False, error=validatedresult, exception=validationexc)
 
-            return ToolCallResponse(success=True, data=validated[1])
+            return ToolCallResponse(success=True, data=validatedresult)
 
         except Exception as e:
             log.error(f"ToolCallHandler._methodbuilder | exception | {str(e)}")
             return ToolCallResponse(
                 success=False,
-                error=f"Methodbuilder Error: {str(e)}"
+                error=f"Methodbuilder Error: {str(e)}",
+                exception=e
             )
 
 # global handler instance
-
 toolcallhandler = ToolCallHandler()
-
-"""
-for fw in loaded["frameworks"][1:]:
-    validator.addstrategy(fw)
-    log.debug(f"ToolCallHandler._methodbuilder | added framework strategy: {fw.__class__.__name__}")
-"""

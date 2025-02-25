@@ -1,0 +1,100 @@
+2025-02-25 14:55:26.940 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ErrorCorrectionStrategy
+2025-02-25 14:55:26.940 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ImportErrorStrategy
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: TypeErrorStrategy
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: SyntaxErrorStrategy
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: FrameworkErrorStrategy
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: PropositionErrorStrategy
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.dialog.strategies.correction:register:401 - Registered error handling strategies
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.integrations:initializecontrollerstrategies:16 - Initialized dialog controller strategies
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.integrations:integratetoolhandler:49 - Integrated tool handler with dialog controller
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.integrations:integratevaliationresults:79 - Integrated validation results with dialog state
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.integrations:integrateframeworkselection:110 - Integrated framework selection with dialog controller
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.dialog.management:initialize:213 - Initialized state manager
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.integrations:integratestatemanagement:116 - Integrated state management with dialog controller
+2025-02-25 14:55:26.941 | INFO     | formalities.utils.integrations:setupintegrations:125 - All integrations completed
+2025-02-25 14:55:26.941 | INFO     | __main__:main:281 - Starting managed dialog test with Mistral-Nemo
+2025-02-25 14:58:16.168 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ErrorCorrectionStrategy
+2025-02-25 14:58:16.168 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ImportErrorStrategy
+2025-02-25 14:58:16.168 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: TypeErrorStrategy
+2025-02-25 14:58:16.168 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: SyntaxErrorStrategy
+2025-02-25 14:58:16.168 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: FrameworkErrorStrategy
+2025-02-25 14:58:16.168 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: PropositionErrorStrategy
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.dialog.strategies.correction:register:401 - Registered error handling strategies
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.integrations:initializecontrollerstrategies:16 - Initialized dialog controller strategies
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.integrations:integratetoolhandler:49 - Integrated tool handler with dialog controller
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.integrations:integratevaliationresults:79 - Integrated validation results with dialog state
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.integrations:integrateframeworkselection:110 - Integrated framework selection with dialog controller
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.integrations:integratestatemanagement:120 - State management already initialized, skipping
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.integrations:setupintegrations:133 - All integrations completed
+2025-02-25 14:58:16.169 | INFO     | __main__:main:281 - Starting managed dialog test with Mistral-Nemo
+2025-02-25 14:58:16.169 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: INITIALIZATION -> INITIALIZATION
+2025-02-25 14:58:24.500 | ERROR    | __main__:mmtool:44 - Error in mmtool: integratetoolhandler.<locals>.enhancedmethodbuilder() takes 1 positional argument but 2 were given
+2025-02-25 14:58:24.501 | DEBUG    | formalities.utils.dialog.management:trackrecovery:145 - Started tracking recovery for TYPEERROR
+2025-02-25 14:58:24.501 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: INITIALIZATION -> ERRORHANDLING
+2025-02-25 14:58:24.501 | ERROR    | formalities.utils.dialog.state:seterror:117 - Dialog error: TYPEERROR - integratetoolhandler.<locals>.enhancedmethodbuilder() takes 1 positional argument but 2 were given
+2025-02-25 14:58:24.501 | INFO     | formalities.utils.dialog.controller:processrequest:66 - Applying strategy: ErrorCorrectionStrategy for stage: ERRORHANDLING
+2025-02-25 14:58:24.501 | DEBUG    | formalities.utils.dialog.strategies.correction:apply:37 - ErrorCorrectionStrategy handling TYPEERROR error
+2025-02-25 14:58:28.921 | INFO     | __main__:main:340 - Dialog completed with 2 exchanges
+2025-02-25 14:58:28.922 | INFO     | __main__:main:341 - Tool calls: 0
+2025-02-25 14:58:28.922 | INFO     | __main__:main:342 - Final dialog stage: ERRORHANDLING
+2025-02-25 14:58:28.922 | INFO     | formalities.utils.dialog.state:reset:135 - Dialog state reset
+2025-02-25 14:58:28.922 | INFO     | formalities.utils.dialog.controller:reset:125 - Dialog controller reset
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ErrorCorrectionStrategy
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ImportErrorStrategy
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: TypeErrorStrategy
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: SyntaxErrorStrategy
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: FrameworkErrorStrategy
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: PropositionErrorStrategy
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.strategies.correction:register:401 - Registered error handling strategies
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.integrations:initializecontrollerstrategies:16 - Initialized dialog controller strategies
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.integrations:integratetoolhandler:59 - Integrated tool handler with dialog controller
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.integrations:integratevaliationresults:89 - Integrated validation results with dialog state
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.integrations:integrateframeworkselection:120 - Integrated framework selection with dialog controller
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.integrations:integratestatemanagement:131 - State management already initialized, skipping
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.integrations:setupintegrations:145 - All integrations completed
+2025-02-25 15:01:07.331 | INFO     | __main__:main:281 - Starting managed dialog test with Mistral-Nemo
+2025-02-25 15:01:07.331 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: INITIALIZATION -> INITIALIZATION
+2025-02-25 15:01:13.372 | WARNING  | formalities.utils.dialog.controller:processrequest:84 - No strategy found for stage: INITIALIZATION
+2025-02-25 15:01:19.472 | INFO     | formalities.utils.toolcalls:_methodbuilder:232 - ToolCallHandler._methodbuilder | loaded: {'frameworks': [<formalities.frameworks.simple.ClassicalFramework object at 0x106bd2660>], 'validators': []}
+2025-02-25 15:01:19.473 | DEBUG    | formalities.utils.dialog.management:trackrecovery:145 - Started tracking recovery for TYPEERROR
+2025-02-25 15:01:19.473 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: INITIALIZATION -> ERRORHANDLING
+2025-02-25 15:01:19.473 | ERROR    | formalities.utils.dialog.state:seterror:117 - Dialog error: TYPEERROR - Failed to convert result: Cannot convert type (dict) to proposition
+2025-02-25 15:01:19.473 | INFO     | __main__:main:340 - Dialog completed with 1 exchanges
+2025-02-25 15:01:19.473 | INFO     | __main__:main:341 - Tool calls: 4
+2025-02-25 15:01:19.473 | INFO     | __main__:main:342 - Final dialog stage: ERRORHANDLING
+2025-02-25 15:01:19.473 | INFO     | formalities.utils.dialog.state:reset:135 - Dialog state reset
+2025-02-25 15:01:19.474 | INFO     | formalities.utils.dialog.controller:reset:125 - Dialog controller reset
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ErrorCorrectionStrategy
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: ImportErrorStrategy
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: TypeErrorStrategy
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: SyntaxErrorStrategy
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: FrameworkErrorStrategy
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.controller:registerstrategy:60 - Registered strategy: PropositionErrorStrategy
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.strategies.correction:register:401 - Registered error handling strategies
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.integrations:initializecontrollerstrategies:16 - Initialized dialog controller strategies
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.integrations:integratetoolhandler:59 - Integrated tool handler with dialog controller
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.integrations:integratevaliationresults:89 - Integrated validation results with dialog state
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.integrations:integrateframeworkselection:120 - Integrated framework selection with dialog controller
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.integrations:integratestatemanagement:131 - State management already initialized, skipping
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.integrations:setupintegrations:145 - All integrations completed
+2025-02-25 15:03:51.108 | INFO     | __main__:main:107 - Starting managed dialog test with Mistral-Nemo
+2025-02-25 15:03:51.108 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: INITIALIZATION -> INITIALIZATION
+2025-02-25 15:03:56.531 | WARNING  | formalities.utils.dialog.controller:processrequest:84 - No strategy found for stage: INITIALIZATION
+2025-02-25 15:04:07.789 | DEBUG    | formalities.utils.dialog.management:trackrecovery:145 - Started tracking recovery for IMPORTERROR
+2025-02-25 15:04:07.789 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: INITIALIZATION -> ERRORHANDLING
+2025-02-25 15:04:07.789 | ERROR    | formalities.utils.dialog.state:seterror:117 - Dialog error: IMPORTERROR - Validator not found: OccurrencesValidator
+2025-02-25 15:04:07.789 | INFO     | formalities.utils.dialog.controller:processrequest:66 - Applying strategy: ErrorCorrectionStrategy for stage: ERRORHANDLING
+2025-02-25 15:04:07.789 | DEBUG    | formalities.utils.dialog.strategies.correction:apply:37 - ErrorCorrectionStrategy handling IMPORTERROR error
+2025-02-25 15:04:12.480 | INFO     | formalities.utils.dialog.controller:processrequest:66 - Applying strategy: ErrorCorrectionStrategy for stage: ERRORHANDLING
+2025-02-25 15:04:12.481 | DEBUG    | formalities.utils.dialog.strategies.correction:apply:37 - ErrorCorrectionStrategy handling IMPORTERROR error
+2025-02-25 15:04:24.569 | INFO     | formalities.utils.dialog.management:enhancedtransition:216 - Dialog state transition: ERRORHANDLING -> ERRORHANDLING
+2025-02-25 15:04:24.570 | ERROR    | formalities.utils.dialog.state:seterror:117 - Dialog error: IMPORTERROR - Validator not found: OccurrencesValidator
+2025-02-25 15:04:24.570 | INFO     | formalities.utils.dialog.controller:processrequest:66 - Applying strategy: ErrorCorrectionStrategy for stage: ERRORHANDLING
+2025-02-25 15:04:24.570 | DEBUG    | formalities.utils.dialog.strategies.correction:apply:37 - ErrorCorrectionStrategy handling IMPORTERROR error
+2025-02-25 15:04:29.266 | INFO     | formalities.utils.dialog.controller:processrequest:66 - Applying strategy: ErrorCorrectionStrategy for stage: ERRORHANDLING
+2025-02-25 15:04:29.266 | DEBUG    | formalities.utils.dialog.strategies.correction:apply:37 - ErrorCorrectionStrategy handling IMPORTERROR error
+2025-02-25 15:04:29.267 | INFO     | __main__:main:249 - Dialog completed with 9 exchanges
+2025-02-25 15:04:29.267 | INFO     | __main__:main:250 - Tool calls: 10
+2025-02-25 15:04:29.267 | INFO     | __main__:main:251 - Final dialog stage: ERRORHANDLING
+2025-02-25 15:04:29.268 | INFO     | formalities.utils.dialog.state:reset:135 - Dialog state reset
+2025-02-25 15:04:29.268 | INFO     | formalities.utils.dialog.controller:reset:125 - Dialog controller reset
