@@ -192,3 +192,7 @@
     - [x] Input validation
     - [x] Output handling
     - [x] Error cases
+
+
+[0.0.7]
+  *shiiiiiiiieet we skipped a couple versions its wtvr tho*

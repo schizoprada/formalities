@@ -2,4 +2,6 @@
 *.sh
 .venv/
 *.DS_Store
-hashes/*
+hashes/
+PITCH/
+.CONVO/

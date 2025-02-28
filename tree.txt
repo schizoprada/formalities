@@ -19,13 +19,30 @@
 │       └── PHASE5.md
 ├── CLAUDE.md
 ├── DESIGNPRINCIPLE
+├── PITCH
+│   ├── DECK.html
+│   ├── DECK.md
+│   ├── TEMPLATES
+│   │   ├── ARCHITECTURE.html
+│   │   ├── BIZMODEL.html
+│   │   ├── CAPABILITYCOMP.html
+│   │   ├── COMPETITIONCOMP.html
+│   │   ├── FINPROJDASH.html
+│   │   ├── FRAMEWORKMAP.html
+│   │   ├── REASONGAP.html
+│   │   ├── ROADMAP.html
+│   │   ├── TARGETS.html
+│   │   └── TECHDEMO.html
+│   └── VISUALAIDS.md
 ├── README.md
 ├── ROADMAP.md
 ├── TODO
+│   ├── FALL.md
 │   ├── Feb20.md
 │   ├── Feb21.md
 │   └── Feb25.md
 ├── concatprompt.txt
+├── dialog_mistral_test.log
 ├── hashes
 │   ├── abstract.txt
 │   ├── abstract.txt.ots
@@ -36,8 +53,14 @@
 ├── pytest.ini
 ├── sandbox
 │   ├── __init__.py
+│   ├── fall
+│   │   ├── socratesFALSE.fall
+│   │   └── socratesTRUE.fall
 │   ├── llama_char_count.py
-│   └── mistral_nemo_char_count.py
+│   ├── mistral_nemo_char_count.py
+│   └── mistralnemo
+│       ├── __init__.py
+│       └── managed_char_count.py
 ├── src
 │   └── formalities
 │       ├── __init__.py
@@ -70,6 +93,33 @@
 │       │       │   └── numeric.py
 │       │       ├── quantifiers
 │       │       └── registry.py
+│       ├── fall
+│       │   ├── __init__.py
+│       │   ├── __main__.py
+│       │   ├── bridges
+│       │   │   ├── __init__.py
+│       │   │   ├── llm.py
+│       │   │   ├── logic.py
+│       │   │   └── nlp.py
+│       │   ├── grammar
+│       │   │   ├── __init__.py
+│       │   │   ├── keywords.py
+│       │   │   ├── rules.py
+│       │   │   └── semantics.py
+│       │   ├── parser
+│       │   │   ├── __init__.py
+│       │   │   ├── abstract.py
+│       │   │   ├── lexing.py
+│       │   │   └── parsing.py
+│       │   ├── runtime
+│       │   │   ├── __init__.py
+│       │   │   ├── executor.py
+│       │   │   ├── interpreter.py
+│       │   │   ├── shell.py
+│       │   │   └── validator.py
+│       │   └── utils
+│       │       ├── __init__.py
+│       │       └── exceptions.py
 │       ├── frameworks
 │       │   ├── __init__.py
 │       │   ├── base.py
@@ -88,6 +138,7 @@
 │       │   ├── dialog
 │       │   │   ├── __init__.py
 │       │   │   ├── controller.py
+│       │   │   ├── management.py
 │       │   │   ├── patterns
 │       │   │   │   ├── __init__.py
 │       │   │   │   ├── errors.py
@@ -101,6 +152,7 @@
 │       │   ├── discovery.py
 │       │   ├── formatting.py
 │       │   ├── frameworks.py
+│       │   ├── integrations.py
 │       │   ├── toolcalls.py
 │       │   └── typesys.py
 │       └── validation
@@ -123,6 +175,9 @@
 │   │   └── types
 │   │       ├── __init__.py
 │   │       └── test_numeric_propositions.py
+│   ├── fall
+│   │   ├── __init__.py
+│   │   └── test_lexer.py
 │   ├── frameworks
 │   │   ├── __init__.py
 │   │   └── test_framework_selector.py
@@ -137,4 +192,4 @@
 ├── tree.txt
 └── venv.command
 
-41 directories, 97 files
+52 directories, 141 files

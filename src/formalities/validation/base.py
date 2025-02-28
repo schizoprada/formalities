@@ -8,6 +8,11 @@ from formalities.core.types.propositions import Proposition
 from formalities.frameworks.base import Framework, ValidationResult
 from loguru import logger as log
 
+class ValidationError(Exception):
+    """Exception raised for validation errors."""
+    pass
+
+
 class ValidationType(Enum):
     """Types of validation that can be performed."""
     SYNTACTIC = auto()    # Structure and form

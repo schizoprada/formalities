@@ -132,14 +132,25 @@ including training, finetuning, and otherwise.
 **Capability-Test Pairs:**
 
 1. **Modal Reasoning**
-   - **Abstract:** Handling possibility, necessity, and accessibility relations between possible worlds
+   - **Abstract:**
+   Handling possibility, necessity, and accessibility relations
+   between possible worlds
    - **Tests:**
-     1. **Knowledge vs. Belief:** Distinguish between "John knows X" and "John believes X" by applying appropriate modal operators and axioms
-     2. **Security Protocol Verification:** Model a security protocol using modal logic to reason about what different agents know and when, identifying potential information leaks
-     3. **Counterfactual Analysis:** Evaluate statements like "If the treaty had been signed, war would have been avoided" using possible worlds semantics
+     1. **Knowledge vs. Belief:**
+     Distinguish between "John knows X" and "John believes X"
+     by applying appropriate modal operators and axioms
+     2. **Security Protocol Verification:**
+     Model a security protocol using modal logic to reason about
+     what different agents know and when,
+     identifying potential information leaks
+     3. **Counterfactual Analysis:**
+     Evaluate statements like
+     "If the treaty had been signed, war would have been avoided"
+     using possible worlds semantics
 
 2. **Temporal Logic**
-   - **Abstract:** Reasoning about propositions whose truth values change over time
+   - **Abstract:**
+   Reasoning about propositions whose truth values change over time
    - **Tests:**
      1. **Smart Home Scheduling:** Verify that certain states cannot occur simultaneously or in specific sequences, preventing dangerous conditions
      2. **Medical Treatment Protocol:** Verify that a treatment protocol satisfies constraints like "Drug A must never be administered within 24 hours of Drug B"
@@ -360,8 +371,8 @@ including training, finetuning, and otherwise.
      3. **Novel Problem Handling:** Successfully solve logical problems that would have required tool calls but now can be handled internally
 
 ### 9. Production Deployment (Final Phase)
-
-**Abstract Goal:** Deploy full system with integrated reasoning capabilities
+**Abstract Goal:**
+Deploy full system with integrated reasoning capabilities
 
 **Concrete Deliverables:**
 - Production-ready framework implementation
@@ -372,18 +383,32 @@ including training, finetuning, and otherwise.
 **Capability-Test Pairs:**
 
 1. **Real-world Application Efficacy**
-   - **Abstract:** Practical reasoning in professional domains
+   - **Abstract:**
+   Practical reasoning in professional domains
    - **Tests:**
-     1. **Medical Diagnosis Chain:** Outperform specialized physicians in tracing logical connections in complex, multi-factor diagnoses
-     2. **Legal Precedent Analysis:** Correctly identify logical implications of legal precedents in novel situations
-     3. **Engineering Safety Verification:** Identify logical flaws in complex engineering safety systems that human experts miss
+     1. **Medical Diagnosis Chain:**
+     Outperform specialized physicians in tracing logical connections
+     in complex, multi-factor diagnoses
+     2. **Legal Precedent Analysis:**
+     Correctly identify logical implications of legal precedents
+     in novel situations
+     3. **Engineering Safety Verification:**
+     Identify logical flaws in complex engineering safety systems
+     that human experts miss
 
 2. **Robustness Under Uncertainty**
-   - **Abstract:** Maintaining logical consistency with incomplete information
+   - **Abstract:**
+   Maintaining logical consistency with incomplete information
    - **Tests:**
-     1. **Criminal Investigation Scenario:** In a scenario with deliberately withheld information, identify which conclusions are justified vs. speculative
-     2. **Economic Prediction Under Uncertainty:** Maintain logical consistency when reasoning about economic outcomes with incomplete data
-     3. **Medical Diagnosis with Missing Tests:** Provide logically sound differential diagnoses when certain test results are unavailable
+     1. **Criminal Investigation Scenario:**
+     In a scenario with deliberately withheld information,
+     identify which conclusions are justified vs. speculative
+     2. **Economic Prediction Under Uncertainty:**
+     Maintain logical consistency when reasoning about
+     economic outcomes with incomplete data
+     3. **Medical Diagnosis with Missing Tests:**
+     Provide logically sound differential diagnoses
+     when certain test results are unavailable
 
 3. **Accessibility and Explainability**
    - **Abstract:** Making formal reasoning understandable to non-experts

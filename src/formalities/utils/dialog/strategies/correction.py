@@ -398,4 +398,4 @@ class RecoverableErrorHandler:
         controller.registerstrategy(FrameworkErrorStrategy())
         controller.registerstrategy(PropositionErrorStrategy())
 
-        log.info("Registered error handling strategies")
+        #log.info("Registered error handling strategies")

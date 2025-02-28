@@ -217,4 +217,4 @@ def initialize(state: DialogState) -> None:
 
     # Replace the method
     state.transitionto = enhancedtransition
-    log.info("Initialized state manager")
+    #log.info("Initialized state manager")

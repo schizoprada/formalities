@@ -2,6 +2,7 @@
 from __future__ import annotations
 import typing as t
 from formalities.core.types.propositions import Proposition
+from formalities.core.types.evaluations import EvaluationContext
 from formalities.validation.base import (
     ValidationType, ValidationResult, ValidationContext, ValidationStrategy
 )
@@ -15,7 +16,9 @@ class LogicalConsistencyStrategy(ValidationStrategy):
     def validate(self, proposition: Proposition, context: ValidationContext) -> ValidationResult:
         errors = []
         try:
-            result = proposition.evaluate(context.options)
+            evalctx = EvaluationContext(context.options)
+            result = evalctx.evaluate(proposition)
+            #result = proposition.evaluate(context.options)
             log.debug(f"logicalconsistencystrategy.validate | evaluation result: {result}")
         except Exception as e:
             log.debug(f"logicalconsistencystrategy.validate | evaluation error: {str(e)}")

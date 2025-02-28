@@ -57,7 +57,7 @@ class DialogController:
 
     def registerstrategy(self, strategy: DialogStrategy) -> None:
         self.strategies.append(strategy)
-        log.info(f"Registered strategy: {strategy.name}")
+        #log.info(f"Registered strategy: {strategy.name}")
 
     def processrequest(self, request: DialogRequest) -> DialogResponse:
         self.state.history.addexchange(request.role, request.content, request.metadata)

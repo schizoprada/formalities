@@ -13,7 +13,7 @@ def initializecontrollerstrategies() -> None:
     """Initialize the dialog controller with error handling strategies"""
     # Register all error correction strategies
     RecoverableErrorHandler.register(dialogcontroller)
-    log.info("Initialized dialog controller strategies")
+    #log.info("Initialized dialog controller strategies")
 
 
 def integratetoolhandler() -> None:
@@ -56,7 +56,7 @@ def integratetoolhandler() -> None:
     # Replace the dialogcontroller's handletoolcall with our enhanced version
     dialogcontroller.handletoolcall = enhancedhandletoolcall
 
-    log.info("Integrated tool handler with dialog controller")
+    #log.info("Integrated tool handler with dialog controller")
 
 
 def integratevaliationresults() -> None:
@@ -86,7 +86,7 @@ def integratevaliationresults() -> None:
 
     # Replace the __init__ method
     ValidationResult.__init__ = enhancedinit
-    log.info("Integrated validation results with dialog state")
+    #log.info("Integrated validation results with dialog state")
 
 
 def integrateframeworkselection() -> None:
@@ -117,7 +117,7 @@ def integrateframeworkselection() -> None:
 
     # Replace with enhanced version
     frameworkselector.suggest = enhancedsuggest
-    log.info("Integrated framework selection with dialog controller")
+    #log.info("Integrated framework selection with dialog controller")
 
 
 def integratestatemanagement() -> None:
@@ -132,7 +132,7 @@ def integratestatemanagement() -> None:
             return
 
     initialize(dialogcontroller.state)
-    log.info("Integrated state management with dialog controller")
+    #log.info("Integrated state management with dialog controller")
 
 
 def setupintegrations() -> None:
@@ -142,7 +142,7 @@ def setupintegrations() -> None:
     integratevaliationresults()
     integrateframeworkselection()
     integratestatemanagement()
-    log.info("All integrations completed")
+    #log.info("All integrations completed")
 
 
 # Always initialize when this module is imported

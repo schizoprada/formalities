@@ -1,0 +1,23 @@
+!- this proof should evaluate as false
+BRIDGE NLP ON //
+
+DEFINE PROPOSITION p AS "Socrates is a dog" WHERE "Socrates" IS SUBJECT AND "dog" IS PREDICATE //
+
+DEFINE PROPOSITION q AS "All men are idiots" WHERE "men" IS SUBJECT AND "idiots" IS PREDICATE //
+
+DEFINE PROPOSITION r AS "Socrates is an idiot" WHERE "Socrates" IS SUBJECT AND "idiots" IS PREDICATE //
+
+DEFINE AXIOM Syllogism WHERE p IS TRUE AND q IS TRUE //
+
+BEGIN PROOF
+GIVEN p
+GIVEN q
+PROVE r
+USING Syllogism
+STEP 1: ASSERT p AND q
+STEP 2: INFER r FROM [p, q] VIA Syllogism
+END PROOF //
+
+QUERY r //
+
+SYMBOLIZE r //

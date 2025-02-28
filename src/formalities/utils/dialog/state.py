@@ -171,22 +171,14 @@ class DialogState:
             return ErrorType.TYPEERROR
 
         # Check for custom framework errors
-        try:
-            # Try to import formalities validation exception classes
-            ValidationError = importlib.import_module('formalities.validation.base').ValidationError
-            if isinstance(exception, ValidationError):
-                return ErrorType.VALIDATIONFAILED
+        if (excname:=type(exception).__name__).endswith('ValidationError') or (excname == 'ValidationException'):
+            return ErrorType.VALIDATIONFAILED
 
-            FrameworkError = importlib.import_module('formalities.frameworks.base').FrameworkError
-            if isinstance(exception, FrameworkError):
-                return ErrorType.FRAMEWORKINCOMPATIBLE
+        if (excname.endswith('FrameworkError')) or (excname == 'FrameworkException'):
+            return ErrorType.FRAMEWORKINCOMPATIBLE
 
-            PropositionError = importlib.import_module('formalities.core.types.propositions.base').PropositionError
-            if isinstance(exception, PropositionError):
-                return ErrorType.PROPOSITIONINVALID
-        except (ImportError, AttributeError):
-            # Custom exceptions not available, continue with generic detection
-            pass
+        if (excname.endswith('PropositionError')) or (excname == 'PropositionException'):
+            return ErrorType.PROPOSITIONINVALID
 
         # Execution errors
         if isinstance(exception, (NameError, AttributeError, ValueError, IndexError, KeyError)):

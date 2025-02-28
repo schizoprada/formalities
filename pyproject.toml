@@ -14,6 +14,9 @@ description = "a portable formal logic framework for enabling validated reasonin
 readme = "README.md"
 authors = [{name = "Joel Yisrael", email = "joel@highlyawear.com"}]
 
+[project.scripts]
+fall = "formalities.fall.runtime.shell:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["formalities*"]
