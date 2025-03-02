@@ -37,16 +37,30 @@ class LogicBridge:
         self._nlpbridge = bridge
 
     def validateinference(self, premises: t.List[Proposition], conclusion: Proposition) -> bool:
+        """
+        Validate inference by checking premises and conclusion, logging inputs and results.
+        """
+        log.debug(f"Validating inference | Premises: {premises} | Conclusion: {conclusion}")
+
         for premise in premises:
             validation = self.validateproposition(premise)
+            log.info(f"Validated premise: {premise} | Result: {validation.isvalid}")
             if not validation.isvalid:
+                log.warning(f"Invalid premise found: {premise}")
                 return False
+
         validation = self.validateproposition(conclusion)
+        log.info(f"Validated conclusion: {conclusion} | Result: {validation.isvalid}")
         if not validation.isvalid:
+            log.warning(f"Invalid conclusion: {conclusion}")
             return False
+
         if self._nlpbridge and self._nlpbridge.enabled:
             result = self._nlpbridge.validateinference(premises, conclusion)
+            log.info(f"NLPBridge inference validation result: {result.valid}")
             return result.valid
+
+        log.debug("Inference validation successful (default logic path).")
         return True
 
     def createproposition(self, name: str, value: t.Optional[bool] = None) -> Proposition:
@@ -55,62 +69,68 @@ class LogicBridge:
         self._propositions[name] = prop
         return prop
 
-    def createcompound(self, operator_name: str, *props) -> Proposition:
+    def createcompound(self, operatorname: str, *props) -> Proposition:
         """Create a compound proposition from an operator name and propositions."""
-        if operator_name not in self._operators:
-            raise ValueError(f"Unknown operator: {operator_name}")
+        if operatorname not in self._operators:
+            raise ValueError(f"Unknown operator: {operatorname}")
 
-        operator = self._operators[operator_name]
+        operator = self._operators[operatorname]
         return CompoundProposition(operator, props)
 
     def parseexpression(self, expr: str) -> Proposition:
-        """Parse a FALL expression into a Formalities proposition."""
-        # Simple parsing for expressions like "p AND q", "NOT p", etc.
+        """
+        Parse a FALL expression into a Formalities proposition, logging input and parsed result.
+        """
+        log.debug(f"Parsing expression: {expr}")
         tokens = expr.strip().split()
 
-        # Handle empty expression
         if not tokens:
+            log.error("Empty expression encountered.")
             raise ValueError("Empty expression")
 
-        # Handle atomic propositions
         if len(tokens) == 1:
-            return self._getorcreateprop(tokens[0])
+            prop = self._getorcreateprop(tokens[0])
+            log.info(f"Parsed atomic proposition: {prop}")
+            return prop
 
-        # Handle IS true/false expressions - Create a new proposition with fixed truth value
         if len(tokens) == 3 and tokens[1].upper() == "IS":
-            prop_name = tokens[0]
-            truth_value = None
+            propname = tokens[0]
+            truthvalue = None
 
             if tokens[2].upper() in ["TRUE", "T"]:
-                truth_value = True
+                truthvalue = True
             elif tokens[2].upper() in ["FALSE", "F"]:
-                truth_value = False
+                truthvalue = False
 
-            # Create a new proposition with specified truth value
-            # instead of trying to modify an existing one
-            return AtomicProposition(prop_name, _truthvalue=truth_value)
+            prop = AtomicProposition(propname, _truthvalue=truthvalue)
+            log.info(f"Parsed IS expression: {expr} -> {prop}")
+            return prop
 
-        # Handle NOT (unary operator)
         if tokens[0] == "NOT" and len(tokens) == 2:
-            return self.createcompound("NOT", self._getorcreateprop(tokens[1]))
+            prop = self.createcompound("NOT", self._getorcreateprop(tokens[1]))
+            log.info(f"Parsed NOT expression: {expr} -> {prop}")
+            return prop
 
-        # Handle binary operators (p AND q, p OR q, etc.)
         if len(tokens) >= 3 and tokens[1] in self._operators:
             left = self._getorcreateprop(tokens[0])
             right = self.parseexpression(" ".join(tokens[2:]))
-            return self.createcompound(tokens[1], left, right)
+            prop = self.createcompound(tokens[1], left, right)
+            log.info(f"Parsed binary expression: {expr} -> {prop}")
+            return prop
 
-        # Handle complex conditions (p IS true AND q IS true)
         if "AND" in tokens:
             idx = tokens.index("AND")
-            left_expr = " ".join(tokens[:idx])
-            right_expr = " ".join(tokens[idx+1:])
-            left_prop = self.parseexpression(left_expr)
-            right_prop = self.parseexpression(right_expr)
-            return self.createcompound("AND", left_prop, right_prop)
+            lexpr = " ".join(tokens[:idx])
+            rexpr = " ".join(tokens[idx+1:])
+            lprop = self.parseexpression(lexpr)
+            rprop = self.parseexpression(rexpr)
+            prop = self.createcompound("AND", lprop, rprop)
+            log.info(f"Parsed AND expression: {expr} -> {prop}")
+            return prop
 
-        # More complex parsing would go here
+        log.error(f"Failed to parse expression: {expr}")
         raise ValueError(f"Cannot parse expression: {expr}")
+
 
     def _getorcreateprop(self, name: str) -> Proposition:
         """Get a proposition by name or create if it doesn't exist."""
@@ -135,14 +155,18 @@ class LogicBridge:
         return self._propositions.get(name)
 
     def isconsistent(self, *props: Proposition) -> bool:
-        """Check if a set of propositions is consistent."""
-        # For basic consistency, we just check if they can all be true together
-        # This is a simplified approach - a more complete would check satisfiability
+        """
+        Check if a set of propositions is consistent, logging the results.
+        """
+        log.debug(f"Checking consistency for propositions: {props}")
 
-        # Create conjunction of all propositions
         if len(props) == 1:
-            return self.validateproposition(props[0]).isvalid
+            result = self.validateproposition(props[0]).isvalid
+            log.info(f"Single proposition consistency check: {props[0]} | Result: {result}")
+            return result
 
         compound = CompoundProposition(ANDN(len(props)), props)
         result = self.validateproposition(compound)
+
+        log.info(f"Compound proposition consistency check: {compound} | Result: {result.isvalid}")
         return result.isvalid

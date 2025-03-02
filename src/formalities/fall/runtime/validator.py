@@ -42,39 +42,38 @@ class FallValidator:
         self.context = ValidationContext(self.bridge)
 
     def validateproposition(self, propdef: PropositionDefinition) -> ValidationResult:
-        """Validate a proposition definition."""
+        """
+        Validate a proposition definition, logging detailed validation decisions and reasons.
+        """
+        log.debug(f"Validating proposition: {propdef.name}")
         errors = []
 
-        # Check that the proposition name is valid
         if not propdef.name or not propdef.name.isalnum():
             errors.append(f"Invalid proposition name: {propdef.name}")
-
-        # Check that the text is not empty
         if not propdef.text:
             errors.append("Proposition text cannot be empty")
-
-        # Check if the structure is valid
         for key, value in propdef.structure.items():
             if not key or not value:
                 errors.append(f"Invalid structure element: {key} = {value}")
 
-        # Create a logical proposition for validation
         try:
             logprop = self.bridge.createproposition(propdef.name)
             propvalidation = self.bridge.validateproposition(logprop)
             if not propvalidation.isvalid:
                 errors.extend(propvalidation.errors)
         except Exception as e:
-            #log.error(f"Logic validation error: {str(e)}")
+            log.error(f"Logic validation error for proposition '{propdef.name}': {str(e)}")
             errors.append(f"Logic error: {str(e)}")
 
         result = ValidationResult(len(errors) == 0, errors)
+        log.info(f"Proposition validation result: {propdef.name} | Valid: {result.isvalid} | Errors: {errors}")
         self.context.record(
             source=f"proposition:{propdef.name}",
             success=result.isvalid,
             errors=errors if not result.isvalid else None
         )
         return result
+
 
     def validateassertion(self, assertion: Assertion) -> ValidationResult:
         """Validate a logical assertion."""

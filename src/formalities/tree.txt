@@ -1,0 +1,113 @@
+src/formalities
+├── __init__.py
+├── core
+│   ├── __init__.py
+│   ├── methods
+│   │   ├── __init__.py
+│   │   ├── reduction
+│   │   └── validation
+│   └── types
+│       ├── __init__.py
+│       ├── atomic.py
+│       ├── compound.py
+│       ├── evaluations
+│       │   ├── __init__.py
+│       │   └── base.py
+│       ├── logic.py
+│       ├── operators
+│       │   ├── __init__.py
+│       │   ├── base.py
+│       │   ├── boolean.py
+│       │   └── modal
+│       │       ├── __init__.py
+│       │       ├── base.py
+│       │       └── registry.py
+│       ├── propositions
+│       │   ├── __init__.py
+│       │   ├── atomic.py
+│       │   ├── base.py
+│       │   ├── compound.py
+│       │   ├── modal
+│       │   │   ├── __init__.py
+│       │   │   └── base.py
+│       │   └── numeric.py
+│       ├── quantifiers
+│       └── registry.py
+├── fall
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── bridges
+│   │   ├── __init__.py
+│   │   ├── adapter.py
+│   │   ├── llm.py
+│   │   ├── logic.py
+│   │   └── nlp.py
+│   ├── grammar
+│   │   ├── __init__.py
+│   │   ├── keywords.py
+│   │   ├── rules.py
+│   │   └── semantics.py
+│   ├── parser
+│   │   ├── __init__.py
+│   │   ├── abstract.py
+│   │   ├── lexing.py
+│   │   └── parsing.py
+│   ├── runtime
+│   │   ├── __init__.py
+│   │   ├── executor.py
+│   │   ├── interpreter.py
+│   │   ├── shell.py
+│   │   └── validator.py
+│   └── utils
+│       ├── __init__.py
+│       └── exceptions.py
+├── frameworks
+│   ├── __init__.py
+│   ├── base.py
+│   ├── frege
+│   ├── russell
+│   ├── simple.py
+│   └── wittgenstein
+├── symbolic
+│   ├── __init__.py
+│   └── types
+│       ├── __init__.py
+│       ├── operators
+│       └── quantifiers
+├── tree.txt
+├── utils
+│   ├── __init__.py
+│   ├── dialog
+│   │   ├── __init__.py
+│   │   ├── controller.py
+│   │   ├── management.py
+│   │   ├── patterns
+│   │   │   ├── __init__.py
+│   │   │   ├── errors.py
+│   │   │   └── success.py
+│   │   ├── prompts.py
+│   │   ├── state.py
+│   │   └── strategies
+│   │       ├── __init__.py
+│   │       ├── correction.py
+│   │       └── reasoning.py
+│   ├── discovery.py
+│   ├── formatting.py
+│   ├── frameworks.py
+│   ├── integrations.py
+│   ├── toolcalls.py
+│   └── typesys.py
+└── validation
+    ├── __init__.py
+    ├── base.py
+    ├── context.py
+    ├── pipelines
+    │   └── __init__.py
+    ├── strategies
+    │   ├── __init__.py
+    │   ├── logicalconsistency.py
+    │   └── syntactic.py
+    └── tools
+        └── __init__.py
+
+34 directories, 77 files

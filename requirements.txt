@@ -3,3 +3,4 @@ click
 loguru
 spacy
 black
+nltk

@@ -31,6 +31,7 @@ class ProofContext:
     steps: dict[int, Proposition] = field(default_factory=dict)
     history: list[dict] = field(default_factory=list)
     propsmetadata: dict[str, str] = field(default_factory=dict)
+    semantictokens: set[str] = field(default_factory=set)
 
     def record(self, step: int, action: str, result: bool, error: t.Optional[str] = None) -> None:
         """Record a proof step outcome."""
@@ -159,55 +160,57 @@ class ProofExecutor:
             return False
 
     def _executeinfer(self, step: ProofStep, context: ProofContext) -> bool:
+        """
+        Execute an inference step within a proof context, logging detailed operations.
+        """
         expr = step.action.replace("INFER", "", 1).strip()
-        sources = (step.source or [])
+        sources = step.source or []
         via = step.via
 
+        log.debug(f"Executing inference | Step: {step.number} | Expression: {expr} | Sources: {sources} | Via: {via}")
         sourceprops = []
+
         for sourcename in sources:
-            # check if given
             if sourcename in context.givens:
+                log.info(f"Source '{sourcename}' found in givens.")
                 sourceprops.append(context.givens[sourcename])
                 continue
+
             try:
                 if sourcename.startswith("step"):
                     stepnum = int(sourcename[4:])
                     if stepnum in context.steps:
+                        log.info(f"Source '{sourcename}' found in previous steps.")
                         sourceprops.append(context.steps[stepnum])
                         continue
             except ValueError:
-                # maybe we need to do something here
-                pass
+                log.warning(f"Invalid step reference: {sourcename}")
 
             if sourcename in context.derived:
+                log.info(f"Source '{sourcename}' found in derived conclusions.")
                 sourceprops.append(context.derived[sourcename])
                 continue
 
+            log.error(f"Source not found: {sourcename}")
             context.record(step.number, f"INFER:{expr}", False, f"Source not found: {sourcename}")
             return False
 
-        # check if the axiom exists
-        if not (axiom:=context.axioms.get(via)):
+        if not (axiom := context.axioms.get(via)):
+            log.error(f"Axiom not found: {via}")
             context.record(step.number, f"INFER:{expr}", False, f"Axiom not found: {via}")
             return False
 
-        # use formalities validation
+        log.info(f"Applying axiom '{via}' to inference.")
+
         try:
-            premises = CompoundProposition(
-                ANDN(len(sourceprops)),
-                tuple(sourceprops)
-            )
-            conclusion = AtomicProposition(
-                expr,
-                _truthvalue=True
-            )
-            validationresult, _ = self.validator.validate(
-                CompoundProposition(
-                    IMPLIES(),
-                    (premises, conclusion)
-                )
-            )
+            premises = CompoundProposition(ANDN(len(sourceprops)), tuple(sourceprops))
+            conclusion = AtomicProposition(expr, _truthvalue=True)
+
+            log.debug(f"Validating inference | Premises: {premises} | Conclusion: {conclusion}")
+            validationresult, _ = self.validator.validate(CompoundProposition(IMPLIES(), (premises, conclusion)))
+
             if validationresult.isvalid:
+                log.info(f"Inference valid | Step: {step.number} | Expression: {expr}")
                 context.steps[step.number] = conclusion
                 context.derived[expr] = conclusion
 
@@ -217,22 +220,32 @@ class ProofExecutor:
                 context.record(step.number, f"INFER:{expr} VIA:{via}", True)
                 return True
             else:
+                log.warning(f"Inference failed | Step: {step.number} | Errors: {'; '.join(validationresult.errors)}")
                 context.record(step.number, f"INFER:{expr}", False, "; ".join(validationresult.errors))
+                return False
         except Exception as e:
+            log.exception(f"Exception during inference execution | Step: {step.number} | Error: {e}")
             context.record(step.number, f"INFER:{expr}", False, str(e))
             return False
 
     def getaxiompreconditions(self, axiom: AxiomDefinition) -> t.List[Proposition]:
-        """Extract preconditions from an axiom as propositions."""
+        """
+        Extract preconditions from an axiom as propositions, logging processed axiom and extracted conditions.
+        """
+        log.debug(f"Processing axiom: {axiom.name}")
         result = []
+
         for condition in axiom.conditions:
             try:
                 prop = self.bridge.parseexpression(condition.expression)
                 result.append(prop)
+                log.info(f"Extracted precondition from axiom '{axiom.name}': {condition.expression}")
             except Exception as e:
-                pass
-                #log.error(f"Failed to parse axiom condition: {str(e)}")
+                log.error(f"Failed to parse axiom condition '{condition.expression}' in '{axiom.name}': {str(e)}")
+
+        log.debug(f"Completed axiom processing: {axiom.name} | Extracted Preconditions: {result}")
         return result
+
 
 
 '''

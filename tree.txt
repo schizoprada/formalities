@@ -17,31 +17,63 @@
 │       ├── PHASE3.md
 │       ├── PHASE4.md
 │       └── PHASE5.md
-├── CLAUDE.md
 ├── DESIGNPRINCIPLE
 ├── PITCH
+│   ├── CONTRACT.md
 │   ├── DECK.html
 │   ├── DECK.md
+│   ├── MOCKMEETINGNOTES.md
+│   ├── OUTLINE.md
 │   ├── TEMPLATES
 │   │   ├── ARCHITECTURE.html
 │   │   ├── BIZMODEL.html
+│   │   ├── BUSINESSMODEL.html
 │   │   ├── CAPABILITYCOMP.html
 │   │   ├── COMPETITIONCOMP.html
 │   │   ├── FINPROJDASH.html
+│   │   ├── FORMALITIESREASONING.html
 │   │   ├── FRAMEWORKMAP.html
+│   │   ├── FULLDECK.html
+│   │   ├── INTERNALSCOMP.html
+│   │   ├── MAINSTREAMREASONINGARCHITECTURE.html
 │   │   ├── REASONGAP.html
 │   │   ├── ROADMAP.html
 │   │   ├── TARGETS.html
-│   │   └── TECHDEMO.html
-│   └── VISUALAIDS.md
+│   │   ├── TECHDEMO.html
+│   │   └── TRADITIONALMODELARCHITECTURE.html
+│   ├── VISUALAIDS.md
+│   ├── app
+│   │   ├── __init__.py
+│   │   └── templates
+│   │       ├── ARCHITECTURE.html
+│   │       ├── BIZMODEL.html
+│   │       ├── BUSINESSMODEL.html
+│   │       ├── CAPABILITYCOMP.html
+│   │       ├── COMPETITIONCOMP.html
+│   │       ├── FINPROJDASH.html
+│   │       ├── FORMALITIESREASONING.html
+│   │       ├── FRAMEWORKMAP.html
+│   │       ├── FULLDECK.html
+│   │       ├── INTERNALSCOMP.html
+│   │       ├── MAINSTREAMREASONINGARCHITECTURE.html
+│   │       ├── REASONGAP.html
+│   │       ├── ROADMAP.html
+│   │       ├── TARGETS.html
+│   │       ├── TECHDEMO.html
+│   │       └── TRADITIONALMODELARCHITECTURE.html
+│   └── wsgi.py
 ├── README.md
+├── REFERENCE
+│   ├── LogicAsker.pdf
+│   ├── LogicInference.pdf
+│   └── OOD.pdf
 ├── ROADMAP.md
 ├── TODO
 │   ├── FALL.md
 │   ├── Feb20.md
 │   ├── Feb21.md
-│   └── Feb25.md
-├── concatprompt.txt
+│   ├── Feb25.md
+│   └── REFALL.md
 ├── dialog_mistral_test.log
 ├── hashes
 │   ├── abstract.txt
@@ -49,11 +81,17 @@
 │   ├── brainstorm.txt
 │   └── brainstorm.txt.ots
 ├── md2html.py
+├── playground
+│   ├── __init__.py
+│   ├── correlatewetwithrain.py
+│   └── slipperywhenwet.py
 ├── pyproject.toml
 ├── pytest.ini
+├── requirements.txt
 ├── sandbox
 │   ├── __init__.py
 │   ├── fall
+│   │   ├── socratesBRIDGED.fall
 │   │   ├── socratesFALSE.fall
 │   │   └── socratesTRUE.fall
 │   ├── llama_char_count.py
@@ -64,31 +102,65 @@
 ├── src
 │   └── formalities
 │       ├── __init__.py
+│       ├── __pycache__
+│       │   └── __init__.cpython-312.pyc
 │       ├── core
 │       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   └── __init__.cpython-312.pyc
 │       │   ├── methods
 │       │   │   ├── __init__.py
 │       │   │   ├── reduction
 │       │   │   └── validation
 │       │   └── types
 │       │       ├── __init__.py
+│       │       ├── __pycache__
+│       │       │   ├── __init__.cpython-312.pyc
+│       │       │   ├── atomic.cpython-312.pyc
+│       │       │   ├── compound.cpython-312.pyc
+│       │       │   ├── logic.cpython-312.pyc
+│       │       │   └── registry.cpython-312.pyc
 │       │       ├── atomic.py
 │       │       ├── compound.py
+│       │       ├── evaluations
+│       │       │   ├── __init__.py
+│       │       │   ├── __pycache__
+│       │       │   │   ├── __init__.cpython-312.pyc
+│       │       │   │   └── base.cpython-312.pyc
+│       │       │   └── base.py
 │       │       ├── logic.py
 │       │       ├── operators
+│       │       │   ├── __init__.py
+│       │       │   ├── __pycache__
+│       │       │   │   ├── __init__.cpython-312.pyc
+│       │       │   │   ├── base.cpython-312.pyc
+│       │       │   │   └── boolean.cpython-312.pyc
 │       │       │   ├── base.py
 │       │       │   ├── boolean.py
 │       │       │   └── modal
 │       │       │       ├── __init__.py
+│       │       │       ├── __pycache__
+│       │       │       │   ├── __init__.cpython-312.pyc
+│       │       │       │   ├── base.cpython-312.pyc
+│       │       │       │   └── registry.cpython-312.pyc
 │       │       │       ├── base.py
 │       │       │       └── registry.py
 │       │       ├── propositions
 │       │       │   ├── __init__.py
+│       │       │   ├── __pycache__
+│       │       │   │   ├── __init__.cpython-312.pyc
+│       │       │   │   ├── atomic.cpython-312.pyc
+│       │       │   │   ├── base.cpython-312.pyc
+│       │       │   │   ├── compound.cpython-312.pyc
+│       │       │   │   └── numeric.cpython-312.pyc
 │       │       │   ├── atomic.py
 │       │       │   ├── base.py
 │       │       │   ├── compound.py
 │       │       │   ├── modal
 │       │       │   │   ├── __init__.py
+│       │       │   │   ├── __pycache__
+│       │       │   │   │   ├── __init__.cpython-312.pyc
+│       │       │   │   │   └── base.cpython-312.pyc
 │       │       │   │   └── base.py
 │       │       │   └── numeric.py
 │       │       ├── quantifiers
@@ -96,32 +168,64 @@
 │       ├── fall
 │       │   ├── __init__.py
 │       │   ├── __main__.py
+│       │   ├── __pycache__
+│       │   │   └── __init__.cpython-312.pyc
 │       │   ├── bridges
 │       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   ├── adapter.cpython-312.pyc
+│       │   │   │   ├── llm.cpython-312.pyc
+│       │   │   │   ├── logic.cpython-312.pyc
+│       │   │   │   └── nlp.cpython-312.pyc
+│       │   │   ├── adapter.py
 │       │   │   ├── llm.py
 │       │   │   ├── logic.py
 │       │   │   └── nlp.py
 │       │   ├── grammar
 │       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   ├── keywords.cpython-312.pyc
+│       │   │   │   ├── rules.cpython-312.pyc
+│       │   │   │   └── semantics.cpython-312.pyc
 │       │   │   ├── keywords.py
 │       │   │   ├── rules.py
 │       │   │   └── semantics.py
 │       │   ├── parser
 │       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   ├── abstract.cpython-312.pyc
+│       │   │   │   ├── lexing.cpython-312.pyc
+│       │   │   │   └── parsing.cpython-312.pyc
 │       │   │   ├── abstract.py
 │       │   │   ├── lexing.py
 │       │   │   └── parsing.py
 │       │   ├── runtime
 │       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   ├── executor.cpython-312.pyc
+│       │   │   │   ├── interpreter.cpython-312.pyc
+│       │   │   │   ├── shell.cpython-312.pyc
+│       │   │   │   └── validator.cpython-312.pyc
 │       │   │   ├── executor.py
 │       │   │   ├── interpreter.py
 │       │   │   ├── shell.py
 │       │   │   └── validator.py
 │       │   └── utils
 │       │       ├── __init__.py
+│       │       ├── __pycache__
+│       │       │   ├── __init__.cpython-312.pyc
+│       │       │   └── exceptions.cpython-312.pyc
 │       │       └── exceptions.py
 │       ├── frameworks
 │       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── base.cpython-312.pyc
+│       │   │   └── simple.cpython-312.pyc
 │       │   ├── base.py
 │       │   ├── frege
 │       │   ├── russell
@@ -133,20 +237,43 @@
 │       │       ├── __init__.py
 │       │       ├── operators
 │       │       └── quantifiers
+│       ├── tree.txt
 │       ├── utils
 │       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── discovery.cpython-312.pyc
+│       │   │   ├── formatting.cpython-312.pyc
+│       │   │   ├── frameworks.cpython-312.pyc
+│       │   │   ├── integrations.cpython-312.pyc
+│       │   │   ├── toolcalls.cpython-312.pyc
+│       │   │   └── typesys.cpython-312.pyc
 │       │   ├── dialog
 │       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   ├── controller.cpython-312.pyc
+│       │   │   │   ├── management.cpython-312.pyc
+│       │   │   │   ├── prompts.cpython-312.pyc
+│       │   │   │   └── state.cpython-312.pyc
 │       │   │   ├── controller.py
 │       │   │   ├── management.py
 │       │   │   ├── patterns
 │       │   │   │   ├── __init__.py
+│       │   │   │   ├── __pycache__
+│       │   │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   │   ├── errors.cpython-312.pyc
+│       │   │   │   │   └── success.cpython-312.pyc
 │       │   │   │   ├── errors.py
 │       │   │   │   └── success.py
 │       │   │   ├── prompts.py
 │       │   │   ├── state.py
 │       │   │   └── strategies
 │       │   │       ├── __init__.py
+│       │   │       ├── __pycache__
+│       │   │       │   ├── __init__.cpython-312.pyc
+│       │   │       │   ├── correction.cpython-312.pyc
+│       │   │       │   └── reasoning.cpython-312.pyc
 │       │   │       ├── correction.py
 │       │   │       └── reasoning.py
 │       │   ├── discovery.py
@@ -157,12 +284,20 @@
 │       │   └── typesys.py
 │       └── validation
 │           ├── __init__.py
+│           ├── __pycache__
+│           │   ├── __init__.cpython-312.pyc
+│           │   ├── base.cpython-312.pyc
+│           │   └── context.cpython-312.pyc
 │           ├── base.py
 │           ├── context.py
 │           ├── pipelines
 │           │   └── __init__.py
 │           ├── strategies
 │           │   ├── __init__.py
+│           │   ├── __pycache__
+│           │   │   ├── __init__.cpython-312.pyc
+│           │   │   ├── logicalconsistency.cpython-312.pyc
+│           │   │   └── syntactic.cpython-312.pyc
 │           │   ├── logicalconsistency.py
 │           │   └── syntactic.py
 │           └── tools
@@ -177,6 +312,7 @@
 │   │       └── test_numeric_propositions.py
 │   ├── fall
 │   │   ├── __init__.py
+│   │   ├── formalities_integration.py
 │   │   └── test_lexer.py
 │   ├── frameworks
 │   │   ├── __init__.py
@@ -192,4 +328,4 @@
 ├── tree.txt
 └── venv.command
 
-52 directories, 141 files
+78 directories, 251 files

@@ -1,6 +1,7 @@
 # ~/formalities/src/formalities/fall/bridges/nlp.py
 import re, typing as t
-import spacy
+import spacy, nltk
+from nltk.corpus import wordnet as wn
 from dataclasses import dataclass, field
 from formalities.core.types.propositions import (
     Proposition, AtomicProposition, CompoundProposition, NumericProposition
@@ -38,6 +39,7 @@ class SemanticValidationResult:
     valid: bool
     confidence: float = 0.0
     connections: t.List[t.Tuple[str, str, float]] = field(default_factory=list)
+    commontokens: set[str] = field(default_factory=set)
     reason: t.Optional[str] = None
 
 
@@ -109,7 +111,14 @@ class NLPBridge:
         doc = self.nlp(text)
         return [token.lemma_ for token in doc if not token.is_stop and token.is_alpha]
 
+    def tokenizedef(self, definition: t.Optional[str] = None) -> set:
+        if not definition:
+            return set()
+        doc = self.nlp(definition.lower())
+        return {token.lemma_ for token in doc if not token.is_stop and token.is_alpha and len(token.text) > 2}
+
     def getsimilarity(self, t1: str, t2: str) -> float:
+        log.info(f"NLPBridge.getsimilarity | calculating similarity between terms: <{t1}> and <{t2}>")
         if (not t1) or (not t2):
             return 0.0
         t1 = t1.lower().strip()
@@ -120,7 +129,7 @@ class NLPBridge:
         d1 = self.nlp(t1)
         d2 = self.nlp(t2)
         sim = d1.similarity(d2)
-        log.info(f"Similarity between '{t1}' and '{t2}': {sim:.2f}")
+        log.info(f"NLPBridge.getimilarity | Similarity between <{t1}> and <{t2}>: {sim:.2f}")
         return sim
 
     def validateterms(self, terms: t.List[t.Tuple[str, str]]) -> SemanticValidationResult:
@@ -148,123 +157,109 @@ class NLPBridge:
         log.info(f"NLPBridge.validateterms | result: {result}")
         return result
 
-    def validateinference(self, premises: t.List[t.Any], conclusion: t.Any) -> SemanticValidationResult:
-        """
-        Validate if a conclusion can be semantically inferred from the premises.
-        """
-        if not self.enabled:
-            return SemanticValidationResult(True, 1.0, [], "NLP Bridge disabled")
+    def validateinference(self, premises: t.List[Proposition], conclusion: Proposition) -> SemanticValidationResult:
+            """
+            Validate if a conclusion can be semantically inferred from the premises.
+            """
+            log.debug(f"NLPBridge.validateinference | Start validation for premises: {premises} | Conclusion: {conclusion}")
+            if not self.enabled:
+                log.warning("NLPBridge.validateinference | NLP Bridge disabled, returning default valid result.")
+                return SemanticValidationResult(True, 1.0, [], reason="NLP Bridge disabled")
 
-        # Extract texts from premises and conclusion
-        premisetexts = [getattr(p, 'text', str(p)) for p in premises]
-        conclusiontext = getattr(conclusion, 'text', str(conclusion))
+            # Extract texts from premises and conclusion
+            premisetexts = [getattr(p, 'text', str(p)) for p in premises]
+            conclusiontext = getattr(conclusion, 'text', str(conclusion))
 
-        log.info(f"Validating inference from {premisetexts} to {conclusiontext}")
+            log.info(f"NLPBridge.validateinference | Extracting structures for premises: {premisetexts} | Conclusion: {conclusiontext}")
 
-        # Get structures for analysis
-        structures = []
-        for text in premisetexts + [conclusiontext]:
-            struct = self.extractstructure(text)
-            structures.append(struct)
+            # Get structures for analysis
+            structures = []
+            for text in (premisetexts + [conclusiontext]):
+                struct = self.extractstructure(text)
+                structures.append(struct)
+                log.debug(f"Extracted structure for '{text}': {struct}")
 
-        premisestructs = structures[:-1]
-        conclusionstruct = structures[-1]
+            premisestructs = structures[:-1]
+            conclusionstruct = structures[-1]
 
-        # For syllogistic reasoning, we need to check:
-        # 1. Subject of conclusion matches a subject in premises
-        # 2. Predicate of conclusion matches a predicate in premises
-        # 3. There's a "bridge" term connecting premises
+            connections = []
 
-        # Check subject connection (conclusion subject should match a premise subject)
-        subjectmatches = []
-        if conclusionstruct.subject:
+            # Check subject connection
+            subjectmatches = []
+            if conclusionstruct.subject:
+                for i, pstruct in enumerate(premisestructs):
+                    if pstruct.subject:
+                        sim = self.getsimilarity(conclusionstruct.subject, pstruct.subject)
+                        log.debug(f"Subject match check | Premise {i}: {pstruct.subject} | Conclusion: {conclusionstruct.subject} | Similarity: {sim}")
+                        if sim >= self.simthresh:
+                            subjectmatches.append((i, sim))
+                        connections.append((f"subj-match-{i}", f"{conclusionstruct.subject}-{pstruct.subject}", sim))
+
+            # Check predicate connection
+            predicatematches = []
+            conclusionpredicates = conclusionstruct.objects + list(conclusionstruct.modifiers.values())
             for i, pstruct in enumerate(premisestructs):
-                if pstruct.subject:
-                    sim = self.getsimilarity(conclusionstruct.subject, pstruct.subject)
-                    if sim >= self.simthresh:
-                        subjectmatches.append((i, sim))
+                premisepredicates = pstruct.objects + list(pstruct.modifiers.values())
+                for cpred in conclusionpredicates:
+                    for ppred in premisepredicates:
+                        if cpred and ppred:
+                            sim = self.getsimilarity(cpred, ppred)
+                            log.debug(f"Predicate match check | Premise {i}: {ppred} | Conclusion: {cpred} | Similarity: {sim}")
+                            connections.append((f"pred-match-{i}", f"{cpred}-{ppred}", sim))
+                            if sim >= self.simthresh:
+                                predicatematches.append((i, sim))
 
-        # Check predicate connection (conclusion predicate should match a premise predicate)
-        predicatematches = []
-        conclusionpredicates = conclusionstruct.objects + list(conclusionstruct.modifiers.values())
-        for i, pstruct in enumerate(premisestructs):
-            premisepredicates = pstruct.objects + list(pstruct.modifiers.values())
-            for c_pred in conclusionpredicates:
-                for p_pred in premisepredicates:
-                    if c_pred and p_pred:
-                        sim = self.getsimilarity(c_pred, p_pred)
-                        if sim >= self.simthresh:
-                            predicatematches.append((i, sim))
+            # Token overlap calculation
+            allcommontokens = set()
+            overlapscores = []
+            for cpred in conclusionpredicates:
+                if not cpred:
+                    continue
+                for i, pstruct in enumerate(premisestructs):
+                    premisepredicates = (pstruct.objects + list(pstruct.modifiers.values()))
+                    for ppred in premisepredicates:
+                        if not ppred:
+                            continue
+                        overlap, common = self.calctokenoverlap(cpred, ppred)
+                        overlapscores.append((overlap, common))
+                        allcommontokens.update(common)
+                        connections.append((f"token-overlap-pred-{i}", f"{cpred}-{ppred}", overlap))
+                        log.debug(f"Token Overlap | Premise {i}: {ppred} | Conclusion: {cpred} | Overlap Score: {overlap} | Common Tokens: {common}")
 
-        # Check for bridge terms between premises
-        bridgeterms = []
-        if len(premisestructs) >= 2:
-            for i, p1 in enumerate(premisestructs):
-                for j in range(i+1, len(premisestructs)):
-                    p2 = premisestructs[j]
-                    # Check subject-subject connection
-                    if p1.subject and p2.subject:
-                        sim = self.getsimilarity(p1.subject, p2.subject)
-                        if sim >= self.simthresh:
-                            bridgeterms.append(("subject", i, j, sim))
+            bestoverlap = max([score for score, _ in overlapscores], default=0.0)
 
-                    # Check subject-predicate connections
-                    p1predicates = p1.objects + list(p1.modifiers.values())
-                    p2predicates = p2.objects + list(p2.modifiers.values())
+            existingvalid = (len(subjectmatches) > 0) and (len(predicatematches) > 0)
+            overlapvalid = bestoverlap >= 0.2
+            valid = existingvalid and bestoverlap >= 0.1
 
-                    if p1.subject:
-                        for p2_pred in p2predicates:
-                            if p2_pred:
-                                sim = self.getsimilarity(p1.subject, p2_pred)
-                                if sim >= self.simthresh:
-                                    bridgeterms.append(("subj-pred", i, j, sim))
+            confidence = 0.0
+            if connections:
+                confidence = (
+                    (0.6 * (sum(sim for _, _, sim in connections) / len(connections))) +
+                    (0.4 * bestoverlap)
+                )
 
-                    if p2.subject:
-                        for p1_pred in p1predicates:
-                            if p1_pred:
-                                sim = self.getsimilarity(p2.subject, p1_pred)
-                                if sim >= self.simthresh:
-                                    bridgeterms.append(("pred-subj", i, j, sim))
+            if valid:
+                commontokenstring = "; ".join(list(allcommontokens)[:5])
+                reason = (
+                    f"Valid inference found: {len(subjectmatches)} subject matches, "
+                    f"{len(predicatematches)} predicate matches, "
+                    f"Token Overlap Score: {bestoverlap:.2f}. "
+                    f"Common Tokens: {commontokenstring if commontokenstring else 'None'}"
+                )
+            else:
+                missing = []
+                if not subjectmatches:
+                    missing.append("Subject Connection")
+                if not predicatematches:
+                    missing.append("Predicate Connection")
+                if not overlapvalid:
+                    missing.append("Sufficient Token Overlap")
+                reason = f"Invalid Inference - Missing: {', '.join(missing)}"
 
-        # Collect all semantic connections
-        connections = [
-            (f"subject-match-{i}", f"{conclusionstruct.subject}-{premisestructs[i].subject}", sim)
-            for i, sim in subjectmatches
-        ] + [
-            (f"predicate-match-{i}", "predicate-similarity", sim)
-            for i, sim in predicatematches
-        ] + [
-            (f"bridge-{i}-{j}", bridge_type, sim)
-            for bridge_type, i, j, sim in bridgeterms
-        ]
-
-        # For a valid syllogism, we need:
-        # 1. At least one subject match
-        # 2. At least one predicate match
-        # 3. At least one bridge term (for multiple premises)
-        valid = len(subjectmatches) > 0 and len(predicatematches) > 0
-
-        if len(premises) >= 2:
-            valid = valid and len(bridgeterms) > 0
-
-        confidence = sum(sim for _, _, sim in connections) / len(connections) if connections else 0.0
-
-        if valid:
-            reason = "Valid semantic inference path found"
-        else:
-            missing = []
-            if not subjectmatches:
-                missing.append("subject connection")
-            if not predicatematches:
-                missing.append("predicate connection")
-            if len(premises) >= 2 and not bridgeterms:
-                missing.append("bridge term between premises")
-            reason = f"Invalid inference: missing {', '.join(missing)}"
-
-        log.info(f"Validation result: {valid} (confidence: {confidence:.2f})")
-        log.info(f"Reason: {reason}")
-
-        return SemanticValidationResult(valid, confidence, connections, reason)
+            result = SemanticValidationResult(valid, confidence, connections, allcommontokens, reason)
+            log.info(f"NLPBridge.validateinference | Validation Completed | Result: {result}")
+            return result
 
     def symbolize(self, proposition):
         """Generate symbolic representation of a proposition."""
@@ -352,6 +347,55 @@ class NLPBridge:
 
         # Default Case
         return AtomicProposition(name, _truthvalue=None)
+
+    def recursewordnet(self, term: str, maxdepth: int = 3, visited: t.Optional[set] = None) -> set:
+        """
+        Recursively explore WordNet for hypernyms of a term, extracting relevant tokens.
+        """
+        if visited is None:
+            visited = set()
+
+        log.debug(f"Starting recursewordnet | Term: {term} | Max Depth: {maxdepth}")
+        tokens = set()
+        synsets = wn.synsets(term)
+        log.info(f"Found {len(synsets)} synsets for term '{term}'")
+
+        for synset in synsets:
+            if synset in visited:
+                log.debug(f"Skipping already visited synset: {synset.name()}")
+                continue
+            visited.add(synset)
+
+            definition = synset.definition()
+            extracted_tokens = self.tokenizedef(definition)
+            tokens.update(extracted_tokens)
+            log.debug(f"Processing synset: {synset.name()} | Definition: {definition} | Extracted Tokens: {extracted_tokens}")
+
+            if maxdepth > 0:
+                for hypernym in synset.hypernyms():
+                    hypernym_name = hypernym.name().split('.')[0]
+                    log.info(f"Recursing into hypernym: {hypernym_name} | Remaining Depth: {maxdepth - 1}")
+                    tokens.update(self.recursewordnet(hypernym_name, maxdepth - 1, visited))
+
+        log.debug(f"Completed recursewordnet for term '{term}' | Extracted Tokens: {tokens}")
+        return tokens
+
+
+    def calctokenoverlap(self, t1: str, t2: str, maxdepth: int = 3) -> tuple[float, set]:
+        log.debug(f"NLPBridge.calctokenoverlap | calculating overlap between tokens: <{t1}> and <{t2}> | max depth: {maxdepth}")
+        tk1 = self.recursewordnet(t1, maxdepth)
+        tk2 = self.recursewordnet(t2, maxdepth)
+
+        if not tk1 or not tk2:
+            return 0.0, set()
+
+        intersection = tk1.intersection(tk2)
+        union = tk1.union(tk2)
+
+        overlap = (len(intersection) / len(union)) if union else 0.0
+        log.info(f"NLPBridge.calctokenoverlap | <{t1}> and <{t2}> calculations -- overlap: {overlap} -- intersection: {intersection}")
+        return overlap, intersection
+
 
 '''
 class NLPBridge:
