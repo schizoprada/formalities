@@ -13,6 +13,12 @@ class WordType(enum.Enum):
     INTERJECTION = enum.auto()
     DETERMINER = enum.auto()
     QUANTIFIER = enum.auto()
+    NUMBER = enum.auto()
+    UNIT = enum.auto()
+    FRACTION = enum.auto()
+    PERCENTAGE = enum.auto()
+    ORDINAL = enum.auto()
+    RATIO = enum.auto()
 
 class WordFunction(enum.Enum):
     SUBJECT = enum.auto()
@@ -25,6 +31,11 @@ class WordFunction(enum.Enum):
     QUANTIFIER = enum.auto()
     ARGUMENT = enum.auto()
     COMPLEMENT = enum.auto()
+    OPERAND = enum.auto()
+    OPERATOR = enum.auto()
+    COUNTABLE = enum.auto()
+    CONTAINER = enum.auto()
+    RESULT = enum.auto()
 
 class RelationshipType(enum.Enum):
     IDENTITY = enum.auto()
@@ -33,6 +44,16 @@ class RelationshipType(enum.Enum):
     SUBSET = enum.auto()
     TAXONOMIC = enum.auto()
     GENERALSIMILARITY = enum.auto()
+    COUNTING = enum.auto()
+    EQUALITY = enum.auto()
+    COMPARISON = enum.auto()
+    ARITHMETIC = enum.auto()
+    MEASUREMENT = enum.auto()
+    PROPORTION = enum.auto()
+    DISTRIBUTION = enum.auto()
+    RATE = enum.auto()
+    PROBABILITY = enum.auto()
+    PROGRESSION = enum.auto()
 
 class StatementType(enum.Enum):
     UNIVERSAL = enum.auto()
@@ -47,6 +68,7 @@ class StatementType(enum.Enum):
     DECLARATIVE = enum.auto()
     INTERROGATIVE = enum.auto()
     IMPERATIVE = enum.auto()
+    NUMERICAL = enum.auto()
 
 
 class POS:
@@ -103,7 +125,34 @@ class KNOWN:
     ARTICLES = {
         'a', 'an', 'the'
     }
-
+    NUMBERWORDS = {'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'}
+    ARITHMETICOPERATORS = {
+        'plus', 'add', 'minus', 'subtract', 'times', 'multiply', 'divide',
+        'divided by', 'multiplied by', 'added to', 'subtracted from'
+    }
+    COMPARANS = {
+        'greater than', 'less than', 'equal to', 'more than', 'fewer than',
+        'at least', 'at most', 'exactly', 'approximately'
+    }
+    UNITS = {
+        # Time
+        'second', 'minute', 'hour', 'day', 'week', 'month', 'year',
+        # Length
+        'meter', 'kilometer', 'inch', 'foot', 'yard', 'mile',
+        # Weight
+        'gram', 'kilogram', 'pound', 'ounce', 'ton',
+        # Volume
+        'liter', 'gallon', 'quart', 'pint', 'cup',
+        # Other
+        'degree', 'percent', 'dollar', 'euro'
+    }
+    class COUNTING:
+        NOUNS = {
+            'number', 'count', 'total', 'sum', 'amount', 'quantity'
+        }
+        VERBS = {
+            'count', 'tally', 'enumerate', 'total'
+        }
 
 class PATTERNS:
     STATEMENTTYPES = {
@@ -124,6 +173,21 @@ class PATTERNS:
         StatementType.IMPERATIVE: {
             'startswithverb': True,
             'endswith': ['!', '.'],
+        },
+        StatementType.NUMERICAL: {
+            'startswith': ['how many', 'count', 'calculate', 'compute'],
+            'contains': [
+                # Counting patterns
+                'are there', 'there are', 'has', 'have', 'contain', 'consists of',
+                # Arithmetic patterns
+                'plus', 'minus', 'times', 'divided by', 'equals', 'is equal to',
+                'add', 'subtract', 'multiply', 'divide',
+                # Number presence patterns
+                'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
+            ],
+            # Check for digit presence
+            'hasdigit': True
         },
         # Default to DECLARATIVE if no other patterns match
     }
@@ -177,6 +241,33 @@ class PATTERNS:
                 'subject': WordType.NOUN,
                 'predicate': WordType.NOUN
             }
+        },
+        # Counting statement
+        # Example: "There are 2 r's in strawberry"
+        RelationshipType.COUNTING: {
+            'statementtype': StatementType.NUMERICAL,
+            'contains': ['in', 'there are', 'has', 'have', 'how many'],
+            'has': {
+                'number': True
+            }
+        },
+        # Arithmetic relationship
+        # Example: "2 plus 2 equals 4"
+        RelationshipType.ARITHMETIC: {
+            'statementtype': StatementType.NUMERICAL,
+            'contains': KNOWN.ARITHMETICOPERATORS,
+            'has': {
+                'number': True
+            }
+        },
+        # Comparison relationship
+        # Example: "5 is greater than 3"
+        RelationshipType.COMPARISON: {
+            'statementtype': StatementType.NUMERICAL,
+            'contains': KNOWN.COMPARANS,
+            'has': {
+                'number': True
+            }
         }
     }
 
@@ -204,7 +295,41 @@ class PATTERNS:
                 2: 'CopulaCheck',                  # Third word should be a copula
                 3: WordFunction.PREDICATENOMINATIVE # Fourth word should be predicate
             }
+        },
+        # For counting statements like "There are 2 r's in strawberry"
+        'counting': {
+            'positions': {
+                0: None,                           # "There" (skip)
+                1: 'CopulaCheck',                  # "are" (copula)
+                2: WordFunction.RESULT,            # "2" (count result)
+                3: WordFunction.COUNTABLE,         # "r's" (what's being counted)
+                4: None,                           # "in" (skip preposition)
+                5: WordFunction.CONTAINER          # "strawberry" (where counting happens)
+            },
+            # Alternate form: "Strawberry has 2 r's"
+            'alternate': {
+                0: WordFunction.CONTAINER,         # "Strawberry" (container)
+                1: 'CopulaCheck',                  # "has" (treated as copula)
+                2: WordFunction.RESULT,            # "2" (count result)
+                3: WordFunction.COUNTABLE          # "r's" (what's being counted)
+            }
+        },
+        # For arithmetic statements like "2 plus 2 equals 4"
+        'arithmetic': {
+            'positions': {
+                0: WordFunction.OPERAND,           # First number
+                1: WordFunction.OPERATOR,          # Operator (plus)
+                2: WordFunction.OPERAND,           # Second number
+                3: 'CopulaCheck',                  # "equals"
+                4: WordFunction.RESULT             # Result number
+            }
         }
+    }
+    NUMERICALCHECKS = {
+        'hasdigit': (lambda text: any(c.isdigit() for c in text)),
+        'iscounting': (lambda text: any(term in text.lower() for term in KNOWN.COUNTING.VERBS) or any(term in text.lower() for term in KNOWN.COUNTING.NOUNS)),
+        'isarithmetic': (lambda text: any(op in text.lower() for op in KNOWN.ARITHMETICOPERATORS)),
+        'hascomparison': (lambda text: any(term in text.lower() for term in KNOWN.COMPARANS))
     }
 
 class CheckFunctions:
@@ -225,15 +350,13 @@ class CheckFunctions:
         else:
             return WordFunction.PREDICATE
 
+    @staticmethod
+    def NumberCheck(word: str) -> bool:
+        """check if a word is a number (digit or word form)"""
+        return (word.isdigit() or word.lower() in KNOWN.NUMBERWORDS)
 
-
-
-"""
-CHANGES:
-    1. removed `KNOWN.PLURALS`
-        reason: violates design principle
-    2. restructured `FUNCTIONS` as CheckFunctions , with methods being static
-        > also removed `is_hyponym_of` -- did not see a reference to it, felt excessive.
-
-
-"""
+    @staticmethod
+    def OperatorCheck(word:str) -> t.Optional[WordFunction]:
+        if word.lower() in KNOWN.ARITHMETICOPERATORS:
+            return WordFunction.OPERATOR
+        return None

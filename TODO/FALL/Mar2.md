@@ -130,3 +130,6 @@ our processing pipeline should break it down as follows:
   Socrates = Man(name="Socrates")
   Socrates.mortal # True
   ```
+
+
+## ANALYSIS
